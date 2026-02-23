@@ -148,10 +148,10 @@ function HelloWorldWidget() {
               {/* Merge Up Button (only show if not the first task) */}
               {index > 0 && (
                 <AutoLayout
-                  padding={4}
+                  padding={8}
                   cornerRadius={4}
-                  fill="#EBEBEB"
-                  hoverStyle={{ fill: "#D6D6D6" }}
+                  fill="#FFFFFF"
+                  hoverStyle={{ fill: "#EBEBEB" }}
                   onClick={() => {
                     const copy = JSON.parse(JSON.stringify(tasks));
                     // Merge current task text into the previous task
@@ -161,7 +161,7 @@ function HelloWorldWidget() {
                     setTasks(copy);
                   }}
                 >
-                  <Text fontSize={12} fill="#666666">
+                  <Text fontSize={14} fill="#CCCCCC" hoverStyle={{ fill: "#666666" }} fontWeight="bold">
                     ↑
                   </Text>
                 </AutoLayout>
