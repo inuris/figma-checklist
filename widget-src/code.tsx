@@ -103,11 +103,6 @@ function HelloWorldWidget() {
               width="fill-parent"
               verticalAlignItems="center"
               spacing={12}
-              onClick={() => {
-                const copy = JSON.parse(JSON.stringify(tasks));
-                copy[index].checked = !copy[index].checked;
-                setTasks(copy);
-              }}
               hoverStyle={{ fill: "#EBEBEB" }}
             >
               {/* Custom Checkbox Box */}
@@ -120,6 +115,11 @@ function HelloWorldWidget() {
                 strokeWidth={1.5}
                 horizontalAlignItems="center"
                 verticalAlignItems="center"
+                onClick={() => {
+                  const copy = JSON.parse(JSON.stringify(tasks));
+                  copy[index].checked = !copy[index].checked;
+                  setTasks(copy);
+                }}
               >
                 {task.checked && (
                   <Text fill="#FFFFFF" fontSize={14} fontWeight="bold" horizontalAlignText="center" verticalAlignText="center">
@@ -129,14 +129,42 @@ function HelloWorldWidget() {
               </AutoLayout>
 
               {/* Task Text */}
-              <Text 
-                fontSize={14} 
-                fill={task.checked ? "#888888" : "#333333"}
-                textDecoration={task.checked ? "strikethrough" : "none"}
-                width="fill-parent"
-              >
-                {task.text}
-              </Text>
+              <AutoLayout width="fill-parent" onClick={() => {
+                const copy = JSON.parse(JSON.stringify(tasks));
+                copy[index].checked = !copy[index].checked;
+                setTasks(copy);
+              }}>
+                <Text 
+                  fontSize={14} 
+                  fill={task.checked ? "#888888" : "#333333"}
+                  textDecoration={task.checked ? "strikethrough" : "none"}
+                  width="fill-parent"
+                >
+                  {task.text}
+                </Text>
+              </AutoLayout>
+
+              {/* Merge Up Button (only show if not the first task) */}
+              {index > 0 && (
+                <AutoLayout
+                  padding={4}
+                  cornerRadius={4}
+                  fill="#EBEBEB"
+                  hoverStyle={{ fill: "#D6D6D6" }}
+                  onClick={() => {
+                    const copy = JSON.parse(JSON.stringify(tasks));
+                    // Merge current task text into the previous task
+                    copy[index - 1].text += "\n" + copy[index].text;
+                    // Remove the current task
+                    copy.splice(index, 1);
+                    setTasks(copy);
+                  }}
+                >
+                  <Text fontSize={12} fill="#666666">
+                    ↑
+                  </Text>
+                </AutoLayout>
+              )}
             </AutoLayout>
           ))}
           
