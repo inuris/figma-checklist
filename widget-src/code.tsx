@@ -44,6 +44,7 @@ function parseTasks(inputText: string): TaskItem[] {
 function HelloWorldWidget() {
   const [inputText, setInputText] = useSyncedState('inputText', '')
   const [tasks, setTasks] = useSyncedState<TaskItem[]>('tasks', [])
+  const [isEditing, setIsEditing] = useSyncedState('isEditing', false)
 
   return (
     <AutoLayout 
@@ -55,9 +56,22 @@ function HelloWorldWidget() {
       stroke="#E5E5E5"
       width={800}
     >
-      <Text fontSize={24} fontWeight="bold">
-        Text to Checklist
-      </Text>
+      <AutoLayout width="fill-parent" verticalAlignItems="center">
+        <Text fontSize={24} fontWeight="bold">
+          Text to Checklist
+        </Text>
+        <AutoLayout
+          padding={{ vertical: 4, horizontal: 12 }}
+          cornerRadius={4}
+          fill={isEditing ? "#18A0FB" : "#E5E5E5"}
+          onClick={() => setIsEditing(!isEditing)}
+          hoverStyle={{ fill: isEditing ? "#0D8BD8" : "#CCCCCC" }}
+        >
+          <Text fontSize={14} fontWeight="bold" fill={isEditing ? "#FFFFFF" : "#333333"}>
+            Edit
+          </Text>
+        </AutoLayout>
+      </AutoLayout>
       
       <Input
         value={inputText}
@@ -160,8 +174,8 @@ function HelloWorldWidget() {
                 />
               </AutoLayout>
 
-              {/* Merge Up Button (only show if not the first task) */}
-              {index > 0 && (
+              {/* Merge Up Button (only show if not the first task and isEditing is true) */}
+              {isEditing && index > 0 && (
                 <AutoLayout
                   padding={{ vertical: 4, horizontal: 8 }}
                   cornerRadius={4}
