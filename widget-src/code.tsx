@@ -160,28 +160,58 @@ function HelloWorldWidget() {
                 hoverStyle={{ fill: "#EBEBEB" }}
                 overflow="visible"
               >
-                {/* Custom Checkbox Box */}
-                <AutoLayout
-                  width={20}
-                  height={20}
-                  cornerRadius={4}
-                  fill={task.checked ? "#18A0FB" : "#FFFFFF"}
-                  stroke={task.checked ? "#18A0FB" : "#CCCCCC"}
-                  strokeWidth={1.5}
-                  horizontalAlignItems="center"
-                  verticalAlignItems="center"
-                  onClick={() => {
-                    const copy = JSON.parse(JSON.stringify(tasks));
-                    copy[index].checked = !copy[index].checked;
-                    setTasks(copy);
-                  }}
-                >
-                  {task.checked && (
-                    <Text fill="#FFFFFF" fontSize={14} fontWeight="bold" horizontalAlignText="center" verticalAlignText="center">
-                      ✓
-                    </Text>
-                  )}
-                </AutoLayout>
+                {/* Custom Checkbox Box or Level Switcher */}
+                {!isEditing ? (
+                  <AutoLayout
+                    width={20}
+                    height={20}
+                    cornerRadius={4}
+                    fill={task.checked ? "#18A0FB" : "#FFFFFF"}
+                    stroke={task.checked ? "#18A0FB" : "#CCCCCC"}
+                    strokeWidth={1.5}
+                    horizontalAlignItems="center"
+                    verticalAlignItems="center"
+                    onClick={() => {
+                      const copy = JSON.parse(JSON.stringify(tasks));
+                      copy[index].checked = !copy[index].checked;
+                      setTasks(copy);
+                    }}
+                  >
+                    {task.checked && (
+                      <SVG
+                        src={`<svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M0 5.28986L1.3716 3.86326L3.62354 6.1569L8.61868 1L10 2.42659L3.62354 9L0 5.28986Z" fill="white"/>
+</svg>`}
+                      />
+                    )}
+                  </AutoLayout>
+                ) : (
+                  <AutoLayout
+                    width={20}
+                    height={20}
+                    cornerRadius={100}
+                    fill="#eeeeee"
+                    horizontalAlignItems="center"
+                    verticalAlignItems="center"
+                    onClick={() => {
+                      const copy = JSON.parse(JSON.stringify(tasks));
+                      copy[index].isChild = !copy[index].isChild;
+                      setTasks(copy);
+                    }}
+                  >
+                    <SVG
+                      src={task.isChild ? `<svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<rect x="10" y="4" width="2" height="10" transform="rotate(90 10 4)" fill="#D9D9D9"/>
+</g>
+</svg>` : `<svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M6 4H10V6H6V10H4V6H0V4H4V0H6V4Z" fill="#D9D9D9"/>
+</g>
+</svg>`}
+                    />
+                  </AutoLayout>
+                )}
 
                 {/* Task Text */}
                 <AutoLayout width="fill-parent" padding={{ top: 2 }} verticalAlignItems="start">
