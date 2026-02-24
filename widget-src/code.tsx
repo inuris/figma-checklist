@@ -41,7 +41,7 @@ function parseTasks(inputText: string): TaskItem[] {
   return parsedTasks;
 }
 
-function HelloWorldWidget() {
+function TextToChecklistWidget() {
   const [inputText, setInputText] = useSyncedState('inputText', '')
   const [tasks, setTasks] = useSyncedState<TaskItem[]>('tasks', [])
   const [isEditing, setIsEditing] = useSyncedState('isEditing', false)
@@ -163,16 +163,20 @@ function HelloWorldWidget() {
         </AutoLayout>
       </AutoLayout>
 
-      <Input
-        value={inputText}
-        placeholder="Type text here to add to checklist..."
-        onTextEditEnd={(e) => setInputText(e.characters)}
-        fontSize={16}
-        fill="#333333"
-        width="fill-parent"
-        inputBehavior="multiline"
-      />
-
+      <AutoLayout width="fill-parent" direction="vertical" spacing={0}>
+        <AutoLayout width="fill-parent" padding={{ top: 8, bottom: 8}} verticalAlignItems="center" spacing={12}>
+          <Input
+            value={inputText}
+            placeholder="Type text here to add to checklist..."
+            onTextEditEnd={(e) => setInputText(e.characters)}
+            fontSize={16}
+            fill="#333333"
+            width="fill-parent"
+            inputBehavior="multiline"
+          />
+        </AutoLayout>
+        <AutoLayout width="fill-parent" height={1} fill="#E5E5E5" />
+      </AutoLayout>
 
       {tasks.length > 0 && (
         <AutoLayout direction="vertical" spacing={0} width="fill-parent">
@@ -375,4 +379,4 @@ function HelloWorldWidget() {
   )
 }
 
-widget.register(HelloWorldWidget)
+widget.register(TextToChecklistWidget)
