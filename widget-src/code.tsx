@@ -45,6 +45,7 @@ function HelloWorldWidget() {
   const [inputText, setInputText] = useSyncedState('inputText', '')
   const [tasks, setTasks] = useSyncedState<TaskItem[]>('tasks', [])
   const [isEditing, setIsEditing] = useSyncedState('isEditing', false)
+  const [isRemoving, setIsRemoving] = useSyncedState('isRemoving', false)
 
   return (
     <AutoLayout
@@ -83,7 +84,10 @@ function HelloWorldWidget() {
         <AutoLayout
           verticalAlignItems="center"
           spacing={6}
-          onClick={() => setIsEditing(!isEditing)}
+          onClick={() => {
+            if (!isEditing) setIsRemoving(false);
+            setIsEditing(!isEditing);
+          }}
           padding={{ vertical: 8, horizontal: 8 }}
           hoverStyle={{ opacity: 0.8 }}
         >
@@ -112,6 +116,46 @@ function HelloWorldWidget() {
               }}
             />
           </AutoLayout>
+        </AutoLayout>
+
+        <AutoLayout
+          verticalAlignItems="center"
+          spacing={6}
+          onClick={() => {
+            if (!isRemoving) setIsEditing(false);
+            setIsRemoving(!isRemoving);
+          }}
+          padding={{ vertical: 8, horizontal: 8 }}
+          hoverStyle={{ opacity: 0.8 }}
+        >
+          <Text fontSize={14} fontWeight="bold" fill="#333333">
+            Remove
+          </Text>
+          <AutoLayout
+            width={32}
+            height={18}
+            cornerRadius={9}
+            fill={isRemoving ? "#F24822" : "#CCCCCC"}
+            padding={2}
+            horizontalAlignItems={isRemoving ? "end" : "start"}
+            verticalAlignItems="center"
+          >
+            <AutoLayout
+              width={14}
+              height={14}
+              cornerRadius={7}
+              fill="#FFFFFF"
+              effect={{
+                type: "drop-shadow",
+                color: "#00000033",
+                offset: { x: 0, y: 1 },
+                blur: 2,
+              }}
+            />
+          </AutoLayout>
+        </AutoLayout>
+        <AutoLayout width="fill-parent" horizontalAlignItems="end" padding={{ top: 8 }} hidden={!isRemoving}>
+          <Text fontSize={12} fill="#F24822" onClick={() => setTasks([])} hoverStyle={{ fill: "#C73014" }}>Clear All</Text>
         </AutoLayout>
       </AutoLayout>
 
@@ -160,8 +204,27 @@ function HelloWorldWidget() {
                 hoverStyle={{ fill: "#EBEBEB" }}
                 overflow="visible"
               >
-                {/* Custom Checkbox Box or Level Switcher */}
-                {!isEditing ? (
+                {/* Custom Checkbox Box, Level Switcher, or Delete Button */}
+                {isRemoving ? (
+                  <AutoLayout
+                    width={20}
+                    height={20}
+                    cornerRadius={10}
+                    fill="#FFE5E5"
+                    strokeWidth={1}
+                    horizontalAlignItems="center"
+                    verticalAlignItems="center"
+                    onClick={() => {
+                      const copy = JSON.parse(JSON.stringify(tasks));
+                      copy.splice(index, 1);
+                      setTasks(copy);
+                    }}
+                  >
+                    <SVG
+                      src={`<svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L9 9M9 1L1 9" stroke="#FF0000" stroke-width="1.5" stroke-linecap="round"/></svg>`}
+                    />
+                  </AutoLayout>
+                ) : !isEditing ? (
                   <AutoLayout
                     width={20}
                     height={20}
@@ -258,7 +321,11 @@ function HelloWorldWidget() {
                     value={task.text}
                     onTextEditEnd={(e) => {
                       const copy = JSON.parse(JSON.stringify(tasks));
-                      copy[index].text = e.characters;
+                      if (e.characters.trim().length === 0) {
+                        copy.splice(index, 1);
+                      } else {
+                        copy[index].text = e.characters;
+                      }
                       setTasks(copy);
                     }}
                     fontSize={14}
