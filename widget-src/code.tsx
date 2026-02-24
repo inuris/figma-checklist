@@ -81,15 +81,37 @@ function HelloWorldWidget() {
           </Text>
         </AutoLayout>
         <AutoLayout
-          padding={{ vertical: 8, horizontal: 16 }}
-          cornerRadius={6}
-          fill={isEditing ? "#18A0FB" : "#E5E5E5"}
+          verticalAlignItems="center"
+          spacing={6}
           onClick={() => setIsEditing(!isEditing)}
-          hoverStyle={{ fill: isEditing ? "#0D8BD8" : "#CCCCCC" }}
+          padding={{ vertical: 8, horizontal: 8 }}
+          hoverStyle={{ opacity: 0.8 }}
         >
-          <Text fontSize={14} fontWeight="bold" fill={isEditing ? "#FFFFFF" : "#333333"}>
+          <Text fontSize={14} fontWeight="bold" fill="#333333">
             Edit
           </Text>
+          <AutoLayout
+            width={32}
+            height={18}
+            cornerRadius={9}
+            fill={isEditing ? "#18A0FB" : "#CCCCCC"}
+            padding={2}
+            horizontalAlignItems={isEditing ? "end" : "start"}
+            verticalAlignItems="center"
+          >
+            <AutoLayout
+              width={14}
+              height={14}
+              cornerRadius={7}
+              fill="#FFFFFF"
+              effect={{
+                type: "drop-shadow",
+                color: "#00000033",
+                offset: { x: 0, y: 1 },
+                blur: 2,
+              }}
+            />
+          </AutoLayout>
         </AutoLayout>
       </AutoLayout>
 
@@ -111,6 +133,7 @@ function HelloWorldWidget() {
               key={task.id}
               direction="vertical"
               width="fill-parent"
+              overflow="visible"
             >
               {/* Top Border (except for the first task) */}
               {index > 0 && (
@@ -131,11 +154,11 @@ function HelloWorldWidget() {
                   right: 12,
                   left: task.isChild ? 44 : 12
                 }}
-                fill="#FFFFFF"
                 width="fill-parent"
                 verticalAlignItems="start"
                 spacing={12}
                 hoverStyle={{ fill: "#EBEBEB" }}
+                overflow="visible"
               >
                 {/* Custom Checkbox Box */}
                 <AutoLayout
@@ -180,7 +203,10 @@ function HelloWorldWidget() {
                 {/* Merge Up Button (only show if not the first task and isEditing is true) */}
                 {isEditing && index > 0 && (
                   <AutoLayout
-                    padding={{ vertical: 4, horizontal: 8 }}
+                    positioning="absolute"
+                    x={{ type: 'right', offset: 8 }}
+                    y={{ type: 'top', offset: -14 }}
+                    padding={{ vertical: 4, horizontal: 4 }}
                     cornerRadius={4}
                     fill="#FFFFFF"
                     hoverStyle={{ fill: "#EBEBEB" }}
