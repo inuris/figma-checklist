@@ -155,7 +155,11 @@ function HelloWorldWidget() {
           </AutoLayout>
         </AutoLayout>
         <AutoLayout width="fill-parent" horizontalAlignItems="end" padding={{ top: 8 }} hidden={!isRemoving}>
-          <Text fontSize={12} fill="#F24822" onClick={() => setTasks([])} hoverStyle={{ fill: "#C73014" }}>Clear All</Text>
+          <Text fontSize={12} fill="#F24822" onClick={() => {
+            setTasks([])
+            setIsEditing(false)
+            setIsRemoving(false)
+          }} hoverStyle={{ fill: "#C73014" }}>Clear All</Text>
         </AutoLayout>
       </AutoLayout>
 
