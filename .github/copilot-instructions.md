@@ -36,3 +36,7 @@ This widget allows users to input blocks of text (paragraphs with bullets or num
 - **Development**: Run `npm run watch` to automatically recompile on save.
 - **Type Checking**: Run `npm run tsc` to check for TypeScript errors.
 - **Building**: `npm run build` generates the final production bundle.
+
+Folders to ignore for suggestions:
+- `dist/`
+- `node_modules/`
