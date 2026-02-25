@@ -1,4 +1,5 @@
 const { widget } = figma
+
 const { AutoLayout, Text, Input, SVG, useSyncedState } = widget
 
 interface TaskItem {
@@ -42,7 +43,6 @@ function parseTasks(inputText: string): TaskItem[] {
 }
 
 function TextToChecklistWidget() {
-  const [inputText, setInputText] = useSyncedState('inputText', '')
   const [tasks, setTasks] = useSyncedState<TaskItem[]>('tasks', [])
   const [isEditing, setIsEditing] = useSyncedState('isEditing', false)
   const [isRemoving, setIsRemoving] = useSyncedState('isRemoving', false)
@@ -69,11 +69,17 @@ function TextToChecklistWidget() {
           cornerRadius={6}
           fill="#18A0FB"
           onClick={() => {
-            if (inputText.trim().length > 0) {
-              const newTasks = parseTasks(inputText);
-              setTasks([...tasks, ...newTasks]);
-              setInputText(''); // Clear the input
-            }
+            return new Promise<void>((resolve) => {
+              figma.showUI(__html__, { width: 500, height: 400, title: "Input text to checklist, separate lines for each task" });
+              figma.ui.onmessage = (msg) => {
+                if (msg.type === 'add-tasks') {
+                  const newTasks = parseTasks(msg.text);
+                  setTasks([...tasks, ...newTasks]);
+                  figma.ui.close();
+                  resolve();
+                }
+              };
+            });
           }}
           hoverStyle={{ fill: "#0D8BD8" }}
         >
@@ -81,6 +87,7 @@ function TextToChecklistWidget() {
             Add
           </Text>
         </AutoLayout>
+
         <AutoLayout
           verticalAlignItems="center"
           spacing={6}
@@ -163,20 +170,7 @@ function TextToChecklistWidget() {
         </AutoLayout>
       </AutoLayout>
 
-      <AutoLayout width="fill-parent" direction="vertical" spacing={0}>
-        <AutoLayout width="fill-parent" padding={{ top: 8, bottom: 8}} verticalAlignItems="center" spacing={12}>
-          <Input
-            value={inputText}
-            placeholder="Type text here to add to checklist..."
-            onTextEditEnd={(e) => setInputText(e.characters)}
-            fontSize={16}
-            fill="#333333"
-            width="fill-parent"
-            inputBehavior="multiline"
-          />
-        </AutoLayout>
-        <AutoLayout width="fill-parent" height={1} fill="#E5E5E5" />
-      </AutoLayout>
+      <AutoLayout width="fill-parent" height={1} fill="#E5E5E5" />
 
       {tasks.length > 0 && (
         <AutoLayout direction="vertical" spacing={0} width="fill-parent">

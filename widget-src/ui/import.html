@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            font-family: Inter, sans-serif;
+            padding: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 250px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background: #18A0FB;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .label {
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="label">Input text to convert to checklist, separate lines for each task</div>
+    <textarea id="input" placeholder="Type or paste content here..."></textarea>
+    <button id="import">Add to Checklist</button>
+
+    <script>
+        const textarea = document.getElementById('input');
+        
+        // Automatically focus the textarea
+        textarea.focus();
+
+        // Intercept paste to handle HTML/Rich Text content
+        textarea.addEventListener('paste', (e) => {
+            // Get the HTML content from the clipboard (requires permission or trusted event)
+            const html = e.clipboardData.getData('text/html');
+            
+            if (html) {
+                e.preventDefault(); // Prevent default paste behavior
+                
+                // Basic HTML parsing logic
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                // Walk the DOM and replace links
+                const links = doc.querySelectorAll('a');
+                links.forEach(a => {
+                    const text = a.textContent;
+                    const href = a.href;
+                    if (href) {
+                        a.textContent = `${text} (${href})`;
+                    }
+                });
+                
+                // Add newlines for block elements to preserve structure
+                const blockElements = doc.querySelectorAll('p, div, li, h1, h2, h3, h4, h5, h6, tr');
+                blockElements.forEach(el => {
+                    el.appendChild(doc.createTextNode('\n'));
+                });
+                
+                const brs = doc.querySelectorAll('br');
+                brs.forEach(br => {
+                    br.replaceWith(doc.createTextNode('\n'));
+                });
+                
+                textarea.value = doc.body.textContent; 
+            }
+        });
+
+        document.getElementById('import').onclick = () => {
+            parent.postMessage({ pluginMessage: { type: 'add-tasks', text: textarea.value } }, '*');
+        }
+    </script>
+</body>
+
+</html>
