@@ -87,90 +87,93 @@ function TextToChecklistWidget() {
             Add
           </Text>
         </AutoLayout>
-
-        <AutoLayout
-          verticalAlignItems="center"
-          spacing={6}
-          onClick={() => {
-            if (!isEditing) setIsRemoving(false);
-            setIsEditing(!isEditing);
-          }}
-          padding={{ vertical: 8, horizontal: 8 }}
-          hoverStyle={{ opacity: 0.8 }}
-        >
-          <Text fontSize={14} fontWeight="bold" fill="#333333">
-            Edit
-          </Text>
+        {tasks.length > 0 && (
           <AutoLayout
-            width={32}
-            height={18}
-            cornerRadius={9}
-            fill={isEditing ? "#18A0FB" : "#CCCCCC"}
-            padding={2}
-            horizontalAlignItems={isEditing ? "end" : "start"}
             verticalAlignItems="center"
+            spacing={6}
+            onClick={() => {
+              if (!isEditing) setIsRemoving(false);
+              setIsEditing(!isEditing);
+            }}
+            padding={{ vertical: 8, horizontal: 8 }}
+            hoverStyle={{ opacity: 0.8 }}
           >
+            <Text fontSize={14} fontWeight="bold" fill="#333333">
+              Edit
+            </Text>
             <AutoLayout
-              width={14}
-              height={14}
-              cornerRadius={7}
-              fill="#FFFFFF"
-              effect={{
-                type: "drop-shadow",
-                color: "#00000033",
-                offset: { x: 0, y: 1 },
-                blur: 2,
-              }}
-            />
+              width={32}
+              height={18}
+              cornerRadius={9}
+              fill={isEditing ? "#18A0FB" : "#CCCCCC"}
+              padding={2}
+              horizontalAlignItems={isEditing ? "end" : "start"}
+              verticalAlignItems="center"
+            >
+              <AutoLayout
+                width={14}
+                height={14}
+                cornerRadius={7}
+                fill="#FFFFFF"
+                effect={{
+                  type: "drop-shadow",
+                  color: "#00000033",
+                  offset: { x: 0, y: 1 },
+                  blur: 2,
+                }}
+              />
+            </AutoLayout>
           </AutoLayout>
-        </AutoLayout>
+        )}
 
-        <AutoLayout
-          verticalAlignItems="center"
-          spacing={6}
-          onClick={() => {
-            if (!isRemoving) setIsEditing(false);
-            setIsRemoving(!isRemoving);
-          }}
-          padding={{ vertical: 8, horizontal: 8 }}
-          hoverStyle={{ opacity: 0.8 }}
-        >
-          <Text fontSize={14} fontWeight="bold" fill="#333333">
-            Remove
-          </Text>
+        {tasks.length > 0 && (
           <AutoLayout
-            width={32}
-            height={18}
-            cornerRadius={9}
-            fill={isRemoving ? "#F24822" : "#CCCCCC"}
-            padding={2}
-            horizontalAlignItems={isRemoving ? "end" : "start"}
             verticalAlignItems="center"
+            spacing={6}
+            onClick={() => {
+              if (!isRemoving) setIsEditing(false);
+              setIsRemoving(!isRemoving);
+            }}
+            padding={{ vertical: 8, horizontal: 8 }}
+            hoverStyle={{ opacity: 0.8 }}
           >
+            <Text fontSize={14} fontWeight="bold" fill="#333333">
+              Remove
+            </Text>
             <AutoLayout
-              width={14}
-              height={14}
-              cornerRadius={7}
-              fill="#FFFFFF"
-              effect={{
-                type: "drop-shadow",
-                color: "#00000033",
-                offset: { x: 0, y: 1 },
-                blur: 2,
-              }}
-            />
+              width={32}
+              height={18}
+              cornerRadius={9}
+              fill={isRemoving ? "#F24822" : "#CCCCCC"}
+              padding={2}
+              horizontalAlignItems={isRemoving ? "end" : "start"}
+              verticalAlignItems="center"
+            >
+              <AutoLayout
+                width={14}
+                height={14}
+                cornerRadius={7}
+                fill="#FFFFFF"
+                effect={{
+                  type: "drop-shadow",
+                  color: "#00000033",
+                  offset: { x: 0, y: 1 },
+                  blur: 2,
+                }}
+              />
+            </AutoLayout>
           </AutoLayout>
-        </AutoLayout>
-        <AutoLayout width="fill-parent" horizontalAlignItems="end" padding={{ top: 8 }} hidden={!isRemoving}>
-          <Text fontSize={12} fill="#F24822" onClick={() => {
-            setTasks([])
-            setIsEditing(false)
-            setIsRemoving(false)
-          }} hoverStyle={{ fill: "#C73014" }}>Clear All</Text>
-        </AutoLayout>
+        )}
+        {tasks.length > 0 && (
+          <AutoLayout width="fill-parent" horizontalAlignItems="end" padding={{ top: 8 }} hidden={!isRemoving}>
+            <Text fontSize={12} fill="#F24822" onClick={() => {
+              setTasks([])
+              setIsEditing(false)
+              setIsRemoving(false)
+            }} hoverStyle={{ fill: "#C73014" }}>Clear All</Text>
+          </AutoLayout>
+        )}
       </AutoLayout>
-
-      <AutoLayout width="fill-parent" height={1} fill="#E5E5E5" />
 
       {tasks.length > 0 && (
         <AutoLayout direction="vertical" spacing={0} width="fill-parent">
