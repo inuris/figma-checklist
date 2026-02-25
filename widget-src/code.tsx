@@ -317,8 +317,8 @@ function TextToChecklistWidget() {
                   >
                     <SVG
                       src={task.isChild ?
-                        `<svg width="12" height="12" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 5h6" stroke="#64748B" stroke-width="1.5" stroke-linecap="round"/></svg>` :
-                        `<svg width="12" height="12" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 3h6M2 5h4M2 7h6" stroke="#64748B" stroke-width="1.5" stroke-linecap="round"/></svg>`
+                        `<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 6H10" stroke="#64748B" stroke-width="1.5" stroke-linecap="round"/></svg>` :
+                        `<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2V10M2 6H10" stroke="#64748B" stroke-width="1.5" stroke-linecap="round"/></svg>`
                       }
                     />
                   </AutoLayout>
@@ -352,7 +352,7 @@ function TextToChecklistWidget() {
                   <AutoLayout
                     positioning="absolute"
                     x={{ type: 'right', offset: 12 }}
-                    y={{ type: 'top', offset: -4 }}
+                    y={{ type: 'top', offset: -13 }}
                     padding={6}
                     cornerRadius={100}
                     fill="#FFFFFF"
@@ -372,7 +372,7 @@ function TextToChecklistWidget() {
                     }}
                   >
                     <SVG
-                      src={`<svg width="12" height="12" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 8V2M3 4l2-2 2 2" stroke="#64748B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`}
+                      src={`<svg width="12" height="12" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 1.5 5 3.5 7 1.5M3 8.5 5 6.5 7 8.5" stroke="#64748B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`}
                     />
                   </AutoLayout>
                 )}
