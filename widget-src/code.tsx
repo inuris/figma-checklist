@@ -56,7 +56,6 @@ function TextToChecklistWidget() {
   const COLOR_BORDER = "#E2E8F0"; // Slate 200
   const COLOR_MUTED = "#64748B"; // Slate 500
   const COLOR_HOVER_BG = "#F8FAFC"; // Slate 50
-  const COLOR_HEADER_BG = "#F1F5F9"; // Slate 100
 
   return (
     <AutoLayout
@@ -80,7 +79,7 @@ function TextToChecklistWidget() {
         verticalAlignItems="center"
         padding={{ vertical: 20, horizontal: 24 }}
         fill={COLOR_BG}
-        stroke={{ type: 'solid', color: COLOR_BORDER, side: 'bottom' }}
+        stroke={{ type: 'solid', color: COLOR_BORDER}}
       >
         <AutoLayout direction="vertical" spacing={4} width="fill-parent">
           <Text fontSize={20} fontWeight="bold" fill={COLOR_PRIMARY} letterSpacing={-0.5} fontFamily="Inter">
