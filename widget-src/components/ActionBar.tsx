@@ -6,9 +6,16 @@ import { parseTasks } from '../utils/parseTasks';
 import {
   COLOR_ACCENT,
   COLOR_ACCENT_HOVER,
+  COLOR_ACCENT_SHADOW,
   COLOR_DANGER,
+  COLOR_DANGER_HOVER,
+  COLOR_EDIT_ACTIVE_BG,
   COLOR_HOVER_BG,
   COLOR_MUTED,
+  COLOR_REMOVE_ACTIVE_BG,
+  COLOR_SURFACE,
+  COLOR_TRANSPARENT,
+  COLOR_WHITE,
 } from '../constants/colors';
 import { ICON_PLUS } from '../constants/icons';
 
@@ -45,7 +52,7 @@ export function ActionBar({
         fill={COLOR_ACCENT}
         effect={{
           type: "drop-shadow",
-          color: "#3B82F64D",
+          color: COLOR_ACCENT_SHADOW,
           offset: { x: 0, y: 4 },
           blur: 8,
         }}
@@ -75,7 +82,7 @@ export function ActionBar({
         spacing={8}
       >
         <SVG src={ICON_PLUS} />
-        <Text fontSize={14} fontWeight="bold" fill="#FFFFFF" fontFamily="Inter">
+        <Text fontSize={14} fontWeight="bold" fill={COLOR_WHITE} fontFamily="Inter">
           Add Items
         </Text>
       </AutoLayout>
@@ -94,8 +101,8 @@ export function ActionBar({
             padding={{ vertical: 8, horizontal: 12 }}
             cornerRadius={8}
             stroke={isEditing ? COLOR_ACCENT : undefined}
-            fill={isEditing ? "#EFF6FF" : "#FFFFFF00"}
-            hoverStyle={{ fill: "#F1F5F9" }}
+            fill={isEditing ? COLOR_EDIT_ACTIVE_BG : COLOR_TRANSPARENT}
+            hoverStyle={{ fill: COLOR_SURFACE }}
           >
             <Text
               fontSize={13}
@@ -118,8 +125,8 @@ export function ActionBar({
             padding={{ vertical: 8, horizontal: 12 }}
             cornerRadius={8}
             stroke={isRemoving ? COLOR_DANGER : undefined}
-            fill={isRemoving ? "#FEF2F2" : "#FFFFFF00"}
-            hoverStyle={{ fill: "#FEF2F2" }}
+            fill={isRemoving ? COLOR_REMOVE_ACTIVE_BG : COLOR_TRANSPARENT}
+            hoverStyle={{ fill: COLOR_REMOVE_ACTIVE_BG }}
           >
             <Text
               fontSize={13}
@@ -148,7 +155,7 @@ export function ActionBar({
               setIsEditing(false);
               setIsRemoving(false);
             }}
-            hoverStyle={{ fill: "#B91C1C" }}
+            hoverStyle={{ fill: COLOR_DANGER_HOVER }}
             fontWeight="bold"
             fontFamily="Inter"
             textDecoration="underline"

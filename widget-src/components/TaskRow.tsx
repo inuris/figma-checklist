@@ -6,7 +6,20 @@ import {
   COLOR_ACCENT,
   COLOR_BG,
   COLOR_BORDER,
+  COLOR_CHECKBOX_HOVER,
+  COLOR_CHECKBOX_UNCHECKED,
+  COLOR_EDIT_ACTIVE_BG,
   COLOR_HOVER_BG,
+  COLOR_LINK_BORDER,
+  COLOR_LINK_HOVER,
+  COLOR_PRIMARY,
+  COLOR_REMOVE_BTN_BG,
+  COLOR_REMOVE_BTN_HOVER,
+  COLOR_SHADOW,
+  COLOR_SURFACE,
+  COLOR_TASK_CHECKED,
+  COLOR_TASK_CHILD,
+  COLOR_WHITE,
 } from '../constants/colors';
 import {
   ICON_CHECK,
@@ -69,7 +82,7 @@ export function TaskRow({
             width={20}
             height={20}
             cornerRadius={6}
-            fill="#FEE2E2"
+            fill={COLOR_REMOVE_BTN_BG}
             horizontalAlignItems="center"
             verticalAlignItems="center"
             onClick={() => {
@@ -77,7 +90,7 @@ export function TaskRow({
               copy.splice(index, 1);
               setTasks(copy);
             }}
-            hoverStyle={{ fill: "#FECACA" }}
+            hoverStyle={{ fill: COLOR_REMOVE_BTN_HOVER }}
           >
             <SVG src={ICON_REMOVE} />
           </AutoLayout>
@@ -88,8 +101,8 @@ export function TaskRow({
             width={20}
             height={20}
             cornerRadius={6}
-            fill={task.checked ? COLOR_ACCENT : "#FFFFFF"}
-            stroke={task.checked ? COLOR_ACCENT : "#CBD5E1"}
+            fill={task.checked ? COLOR_ACCENT : COLOR_WHITE}
+            stroke={task.checked ? COLOR_ACCENT : COLOR_CHECKBOX_UNCHECKED}
             strokeWidth={1.5}
             horizontalAlignItems="center"
             verticalAlignItems="center"
@@ -134,7 +147,7 @@ export function TaskRow({
 
               setTasks(copy);
             }}
-            hoverStyle={!task.checked ? { stroke: "#94A3B8" } : {}}
+            hoverStyle={!task.checked ? { stroke: COLOR_CHECKBOX_HOVER } : {}}
           >
             {task.checked && <SVG src={ICON_CHECK} />}
           </AutoLayout>
@@ -145,7 +158,7 @@ export function TaskRow({
             width={20}
             height={20}
             cornerRadius={6}
-            fill="#F1F5F9"
+            fill={COLOR_SURFACE}
             horizontalAlignItems="center"
             verticalAlignItems="center"
             onClick={() => {
@@ -153,7 +166,7 @@ export function TaskRow({
               copy[index].isChild = !copy[index].isChild;
               setTasks(copy);
             }}
-            hoverStyle={{ fill: "#E2E8F0" }}
+            hoverStyle={{ fill: COLOR_BORDER }}
           >
             <SVG src={task.isChild ? ICON_OUTDENT : ICON_INDENT} />
           </AutoLayout>
@@ -178,7 +191,7 @@ export function TaskRow({
               fontSize={15}
               fontWeight={!task.isChild ? 'semi-bold' : 'normal'}
               fontFamily="Inter"
-              fill={task.checked ? "#9CA3AF" : task.isChild ? "#4B5563" : "#111827"}
+              fill={task.checked ? COLOR_TASK_CHECKED : task.isChild ? COLOR_TASK_CHILD : COLOR_PRIMARY}
               textDecoration={task.checked ? "strikethrough" : "none"}
               width="fill-parent"
               inputBehavior="multiline"
@@ -188,7 +201,7 @@ export function TaskRow({
               fontSize={15}
               fontWeight={!task.isChild ? 'semi-bold' : 'normal'}
               fontFamily="Inter"
-              fill={task.checked ? "#9CA3AF" : task.isChild ? "#4B5563" : "#111827"}
+              fill={task.checked ? COLOR_TASK_CHECKED : task.isChild ? COLOR_TASK_CHILD : COLOR_PRIMARY}
               textDecoration={task.checked ? "strikethrough" : "none"}
               width="fill-parent"
             >
@@ -205,10 +218,10 @@ export function TaskRow({
               verticalAlignItems="center"
               padding={{ vertical: 3, horizontal: 8 }}
               cornerRadius={6}
-              fill="#EFF6FF"
-              stroke="#BFDBFE"
+              fill={COLOR_EDIT_ACTIVE_BG}
+              stroke={COLOR_LINK_BORDER}
               strokeWidth={1}
-              hoverStyle={{ fill: "#DBEAFE" }}
+              hoverStyle={{ fill: COLOR_LINK_HOVER }}
             >
               <Text
                 fontSize={12}
@@ -233,15 +246,15 @@ export function TaskRow({
             y={{ type: 'top', offset: -13 }}
             padding={6}
             cornerRadius={100}
-            fill="#FFFFFF"
-            stroke="#E2E8F0"
+            fill={COLOR_WHITE}
+            stroke={COLOR_BORDER}
             effect={{
               type: "drop-shadow",
-              color: "#0F172A1A",
+              color: COLOR_SHADOW,
               offset: { x: 0, y: 2 },
               blur: 4,
             }}
-            hoverStyle={{ fill: "#F8FAFC" }}
+            hoverStyle={{ fill: COLOR_HOVER_BG }}
             onClick={() => {
               const copy: TaskItem[] = JSON.parse(JSON.stringify(tasks));
               copy[index - 1].text += "\n" + copy[index].text;

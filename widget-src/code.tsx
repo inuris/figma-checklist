@@ -2,7 +2,7 @@ const { widget } = figma;
 const { AutoLayout, Text, useSyncedState } = widget;
 
 import { TaskItem } from './types';
-import { COLOR_ACCENT, COLOR_BG, COLOR_BORDER, COLOR_MUTED } from './constants/colors';
+import { COLOR_ACCENT, COLOR_BG, COLOR_BORDER, COLOR_MUTED, COLOR_SHADOW } from './constants/colors';
 import { Header } from './components/Header';
 import { ActionBar } from './components/ActionBar';
 import { TaskRow } from './components/TaskRow';
@@ -23,7 +23,7 @@ function TextToChecklistWidget() {
       width={600}
       effect={{
         type: "drop-shadow",
-        color: "#0F172A1A",
+        color: COLOR_SHADOW,
         offset: { x: 0, y: 8 },
         blur: 24,
       }}

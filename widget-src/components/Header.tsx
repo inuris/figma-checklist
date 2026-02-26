@@ -6,6 +6,7 @@ import {
   COLOR_BORDER,
   COLOR_MUTED,
   COLOR_PRIMARY,
+  COLOR_SUCCESS,
 } from '../constants/colors';
 
 interface HeaderProps {
@@ -36,7 +37,7 @@ export function Header({ taskCount, completedCount }: HeaderProps) {
         </Text>
         <Text
           fontSize={12}
-          fill={allDone ? "#22C55E" : COLOR_MUTED}
+          fill={allDone ? COLOR_SUCCESS : COLOR_MUTED}
           fontFamily="Inter"
           fontWeight={allDone ? "bold" : "normal"}
         >
