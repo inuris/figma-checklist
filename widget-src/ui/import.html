@@ -122,7 +122,17 @@
                     br.replaceWith(doc.createTextNode('\n'));
                 });
                 
-                textarea.value = doc.body.textContent; 
+                const cleanText = doc.body.textContent;
+                const start = textarea.selectionStart;
+                const end = textarea.selectionEnd;
+                const text = textarea.value;
+                const before = text.substring(0, start);
+                const after = text.substring(end, text.length);
+                
+                textarea.value = before + cleanText + after;
+                
+                // Restore cursor position
+                textarea.selectionStart = textarea.selectionEnd = start + cleanText.length;
             }
         });
 
