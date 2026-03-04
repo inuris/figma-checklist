@@ -16,12 +16,18 @@ Your checklist is ready to use.
 
 ## Formatting Your Input
 
-The widget automatically detects structure from your text:
+The widget automatically detects structure from your text. It supports **numbered**, **lettered**, **bulleted**, and plain lines:
 
-- **Numbered lines** (e.g. `1. Task`, `2) Task`) become **parent tasks** (headers).
-- **All other lines** beneath them become **sub-tasks** (indented children).
+- The **first non-empty line** decides what counts as a **parent task type**:
+  - `1. Design`, `2) Design` → numbered parent
+  - `a. Design`, `B) Design` → lettered parent
+  - `- Design`, `* Design`, `• Design` → bulleted parent
+  - `Design` (no prefix) → plain parent
+- Any **non-indented** line of that same type becomes a **parent task** (header).
+- Any **indented line** (tab or 2+ spaces) is always a **sub-task**, no matter its prefix.
+- Any other non-indented line becomes a **sub-task** under the most recent parent.
 
-**Example input:**
+**Example input (numbered parents + plain children):**
 ```
 1. Design
 Wireframes
