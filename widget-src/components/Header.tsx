@@ -18,6 +18,7 @@ export function Header({ taskCount, completedCount, isDark, setIsDark }: HeaderP
 
     return (
         <AutoLayout
+            name="CardHeader"
             width="fill-parent"
             verticalAlignItems="center"
             padding={{ vertical: 20, horizontal: 24 }}
@@ -26,7 +27,7 @@ export function Header({ taskCount, completedCount, isDark, setIsDark }: HeaderP
             spacing={12}
         >
             {/* Title + subtitle */}
-            <AutoLayout direction="vertical" spacing={4} width="fill-parent">
+            <AutoLayout direction="vertical" spacing={4} width="fill-parent" name="Title">
                 <Text
                     fontSize={20}
                     fontWeight="bold"
@@ -51,7 +52,7 @@ export function Header({ taskCount, completedCount, isDark, setIsDark }: HeaderP
             </AutoLayout>
 
             {/* Theme toggle — top right, bare icon only */}
-            <AutoLayout padding={8}>
+            <AutoLayout padding={8} name="ThemeToggle">
                 <SVG
                     src={isDark ? ICON_SUN : ICON_MOON}
                     onClick={() => setIsDark(!isDark)}

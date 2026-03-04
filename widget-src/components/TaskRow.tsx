@@ -39,13 +39,15 @@ export function TaskRow({
       direction="vertical"
       width="fill-parent"
       overflow="visible"
+      name="TaskRow"
     >
       {/* Separator */}
       {index > 0 && (
-        <AutoLayout width="fill-parent" height={1} fill={t.border} opacity={0.5} />
+        <AutoLayout width="fill-parent" height={1} fill={t.border} opacity={0.5} name="Separator" />
       )}
 
       <AutoLayout
+        name="TaskRowContent"
         padding={{
           top: 16,
           bottom: 16,
@@ -64,6 +66,7 @@ export function TaskRow({
         {/* Remove Mode: red X button */}
         {isRemoving ? (
           <AutoLayout
+            name="RemoveButton"
             width={20}
             height={20}
             cornerRadius={6}
@@ -77,12 +80,13 @@ export function TaskRow({
             }}
             hoverStyle={{ fill: t.removeBtnHover }}
           >
-            <SVG src={ICON_REMOVE} />
+            <SVG name="RemoveIcon" src={ICON_REMOVE} />
           </AutoLayout>
 
         ) : !isEditing ? (
           /* Normal Mode: checkbox */
           <AutoLayout
+            name="Checkbox"
             width={20}
             height={20}
             cornerRadius={6}
@@ -134,12 +138,13 @@ export function TaskRow({
             }}
             hoverStyle={!task.checked ? { stroke: t.checkboxHover } : {}}
           >
-            {task.checked && <SVG src={ICON_CHECK} />}
+            {task.checked && <SVG name="CheckboxIcon" src={ICON_CHECK} />}
           </AutoLayout>
 
         ) : (
           /* Edit Mode: indent/outdent toggle */
           <AutoLayout
+            name="IndentToggle"
             width={20}
             height={20}
             cornerRadius={6}
@@ -153,16 +158,17 @@ export function TaskRow({
             }}
             hoverStyle={{ fill: t.border }}
           >
-            <SVG src={task.isChild ? ICON_OUTDENT : ICON_INDENT} />
+            <SVG name="IndentToggleIcon" src={task.isChild ? ICON_OUTDENT : ICON_INDENT} />
           </AutoLayout>
         )}
 
         {/* Task Text + URL chips */}
-        <AutoLayout direction="vertical" width="fill-parent" spacing={6}>
+        <AutoLayout direction="vertical" width="fill-parent" spacing={6} name="TaskTextAndUrlChips">
 
           {/* Text: display-only in view mode, editable Input in edit mode */}
           {isEditing ? (
             <Input
+              name="TaskTextInput"
               value={task.text}
               onTextEditEnd={(e) => {
                 const copy: TaskItem[] = tasks.map(t => ({ ...t }));
@@ -183,6 +189,7 @@ export function TaskRow({
             />
           ) : (
             <Text
+              name="TaskText"
               fontSize={15}
               fontWeight={!task.isChild ? 'semi-bold' : 'normal'}
               fontFamily="Inter"
@@ -198,6 +205,7 @@ export function TaskRow({
           {extractUrls(task.text).map((url) => (
             <AutoLayout
               key={url}
+              name="UrlChip"
               direction="horizontal"
               spacing={5}
               verticalAlignItems="center"
@@ -209,6 +217,7 @@ export function TaskRow({
               hoverStyle={{ fill: t.linkHover }}
             >
               <Text
+                name="UrlChipText"
                 fontSize={12}
                 fontFamily="Inter"
                 fill={t.accent}
@@ -217,7 +226,7 @@ export function TaskRow({
               >
                 {formatUrlLabel(url)}
               </Text>
-              <SVG src={ICON_LINK} />
+              <SVG name="LinkIcon" src={ICON_LINK} />
             </AutoLayout>
           ))}
 
@@ -226,6 +235,7 @@ export function TaskRow({
         {/* Merge Up button (edit mode only, not first item) */}
         {isEditing && index > 0 && (
           <AutoLayout
+            name="MergeUpButton"
             positioning="absolute"
             x={{ type: 'right', offset: 12 }}
             y={{ type: 'top', offset: -13 }}
@@ -247,7 +257,7 @@ export function TaskRow({
               setTasks(copy);
             }}
           >
-            <SVG src={ICON_MERGE} />
+            <SVG name="MergeUpIcon" src={ICON_MERGE} />
           </AutoLayout>
         )}
       </AutoLayout>
