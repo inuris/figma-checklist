@@ -71,7 +71,7 @@ export function TaskRow({
             horizontalAlignItems="center"
             verticalAlignItems="center"
             onClick={() => {
-              const copy: TaskItem[] = JSON.parse(JSON.stringify(tasks));
+              const copy: TaskItem[] = tasks.map(t => ({ ...t }));
               copy.splice(index, 1);
               setTasks(copy);
             }}
@@ -92,7 +92,7 @@ export function TaskRow({
             horizontalAlignItems="center"
             verticalAlignItems="center"
             onClick={() => {
-              const copy: TaskItem[] = JSON.parse(JSON.stringify(tasks));
+              const copy: TaskItem[] = tasks.map(t => ({ ...t }));
               const isNowChecked = !copy[index].checked;
               copy[index].checked = isNowChecked;
 
@@ -147,7 +147,7 @@ export function TaskRow({
             horizontalAlignItems="center"
             verticalAlignItems="center"
             onClick={() => {
-              const copy: TaskItem[] = JSON.parse(JSON.stringify(tasks));
+              const copy: TaskItem[] = tasks.map(t => ({ ...t }));
               copy[index].isChild = !copy[index].isChild;
               setTasks(copy);
             }}
@@ -165,7 +165,7 @@ export function TaskRow({
             <Input
               value={task.text}
               onTextEditEnd={(e) => {
-                const copy: TaskItem[] = JSON.parse(JSON.stringify(tasks));
+                const copy: TaskItem[] = tasks.map(t => ({ ...t }));
                 if (e.characters.trim().length === 0) {
                   copy.splice(index, 1);
                 } else {
@@ -241,7 +241,7 @@ export function TaskRow({
             }}
             hoverStyle={{ fill: t.floatBtnHover }}
             onClick={() => {
-              const copy: TaskItem[] = JSON.parse(JSON.stringify(tasks));
+              const copy: TaskItem[] = tasks.map(t => ({ ...t }));
               copy[index - 1].text += "\n" + copy[index].text;
               copy.splice(index, 1);
               setTasks(copy);
