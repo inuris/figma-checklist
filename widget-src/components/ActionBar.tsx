@@ -82,54 +82,131 @@ export function ActionBar({
 
       {/* Edit / Remove Toggles */}
       {tasks.length > 0 && (
-        <AutoLayout spacing={8} verticalAlignItems="center" name="EditRemoveToggles">
-          {/* Edit Toggle */}
+        <AutoLayout spacing={12} verticalAlignItems="center" name="EditRemoveToggles">
+          {/* Edit "capsule" switch (no ON/OFF label, sized similar to Add Items) */}
           <AutoLayout
-            verticalAlignItems="center"
-            name="EditToggle"
-            spacing={6}
+            name="EditToggleGroup"
             onClick={() => {
               if (!isEditing) setIsRemoving(false);
               setIsEditing(!isEditing);
             }}
-            padding={{ vertical: 8, horizontal: 12 }}
-            cornerRadius={8}
-            stroke={isEditing ? t.accent : undefined}
-            fill={isEditing ? t.editActiveBg : t.transparent}
-            hoverStyle={{ fill: t.surface }}
           >
-            <Text
-              fontSize={13}
-              fontWeight="medium"
-              fill={isEditing ? t.accent : t.muted}
-              fontFamily="Inter"
-            >
-              Edit
-            </Text>
+            {isEditing ? (
+              <AutoLayout
+                name="EditToggleOn"
+                padding={{ top: 8, bottom: 8, left: 8, right: 16 }}
+                cornerRadius={999}
+                spacing={10}
+                fill={t.white}
+                stroke={t.accent}
+                verticalAlignItems="center"
+              >
+                <AutoLayout
+                  name="EditKnobOn"
+                  width={20}
+                  height={20}
+                  cornerRadius={999}
+                  fill={t.accent}
+                />
+                <Text
+                  fontSize={14}
+                  fontWeight="bold"
+                  fill={t.accent}
+                  fontFamily="Inter"
+                >
+                  Edit
+                </Text>
+              </AutoLayout>
+            ) : (
+              <AutoLayout
+                name="EditToggleOff"
+                padding={{ top: 8, bottom: 8, left: 16, right: 8 }}
+                cornerRadius={999}
+                spacing={10}
+                fill={t.white}
+                stroke={t.border}
+                verticalAlignItems="center"
+              >
+                <Text
+                  fontSize={14}
+                  fontWeight="bold"
+                  fill={t.muted}
+                  fontFamily="Inter"
+                >
+                  Edit
+                </Text>
+                <AutoLayout
+                  name="EditKnobOff"
+                  width={20}
+                  height={20}
+                  cornerRadius={999}
+                  fill={t.border}
+                />
+              </AutoLayout>
+            )}
           </AutoLayout>
 
-          {/* Remove Toggle */}
+          {/* Delete "capsule" switch */}
           <AutoLayout
-            verticalAlignItems="center"
-            spacing={6}
+            name="RemoveToggleGroup"
             onClick={() => {
               if (!isRemoving) setIsEditing(false);
               setIsRemoving(!isRemoving);
             }}
-            padding={{ vertical: 8, horizontal: 12 }}
-            cornerRadius={8}
-            stroke={isRemoving ? t.danger : undefined}
-            fill={isRemoving ? t.removeActiveBg : t.transparent}
-            hoverStyle={{ fill: t.removeActiveBg }}
           >
-            <Text
-              fontSize={13}
-              fontWeight="medium"
-              fill={isRemoving ? t.danger : t.muted}
-              fontFamily="Inter"
-            >
-              Delete
-            </Text>
+            {isRemoving ? (
+              <AutoLayout
+                name="RemoveToggleOn"
+                padding={{ top: 8, bottom: 8, left: 8, right: 16 }}
+                cornerRadius={999}
+                spacing={10}
+                fill={t.white}
+                stroke={t.danger}
+                verticalAlignItems="center"
+              >
+                <AutoLayout
+                  name="RemoveKnobOn"
+                  width={20}
+                  height={20}
+                  cornerRadius={999}
+                  fill={t.danger}
+                />
+                <Text
+                  fontSize={14}
+                  fontWeight="bold"
+                  fill={t.danger}
+                  fontFamily="Inter"
+                >
+                  Delete
+                </Text>
+              </AutoLayout>
+            ) : (
+              <AutoLayout
+                name="RemoveToggleOff"
+                padding={{ top: 8, bottom: 8, left: 16, right: 8 }}
+                cornerRadius={999}
+                spacing={10}
+                fill={t.white}
+                stroke={t.border}
+                verticalAlignItems="center"
+              >
+                <Text
+                  fontSize={14}
+                  fontWeight="bold"
+                  fill={t.muted}
+                  fontFamily="Inter"
+                >
+                  Delete
+                </Text>
+                <AutoLayout
+                  name="RemoveKnobOff"
+                  width={20}
+                  height={20}
+                  cornerRadius={999}
+                  fill={t.border}
+                />
+              </AutoLayout>
+            )}
           </AutoLayout>
         </AutoLayout>
       )}
