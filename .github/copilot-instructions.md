@@ -58,8 +58,16 @@ interface TaskItem {
 ### Text-to-Checklist Logic
 Located in [widget-src/utils/parseTasks.ts](widget-src/utils/parseTasks.ts):
 - Split input by newlines, filter empty lines.
-- Lines matching `/^\d+[/.)]\s*/` are treated as **parent** tasks.
-- All other lines become **child** tasks under the preceding parent.
+- Derive a `parentType` from the **first non-empty line** using regexes:
+  - Numbered: `/^\d+[/.)]\s+/`
+  - Lettered: `/^[a-zA-Z][.)]\s+/`
+  - Bulleted: `/^[•·*-]\s*/`
+  - Otherwise: `plain`
+- For each line:
+  - If it is **indented** (`^\t` or at least two leading spaces), mark as `isChild = true` (sub-task).
+  - Otherwise, if its parsed type equals `parentType`, mark as a **parent** (`isChild = false/undefined`).
+  - Otherwise, treat as a **child** (`isChild = true`) under the latest parent.
+- Newlines inside task text (created by merges) are serialised as `" \ "` on export and restored back to `\n` on parse.
 - Every item gets a unique `id` via `Date.now().toString() + "-" + index`.
 
 ### Parent/Child Checkbox Logic

@@ -1,0 +1,50 @@
+---
+description: TypeScript and Figma widget coding conventions
+globs: widget-src/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+## TypeScript Style
+
+- Use **strict** TypeScript with explicit types where it improves clarity; avoid `any`.
+- Prefer `interface` for data shapes (`TaskItem`, props) and `type` for unions / utility types.
+- Keep function signatures small and focused; extract complex logic into `utils/` instead of bloating components.
+
+## Figma Widget Patterns
+
+- Use `figma.widget` primitives (`AutoLayout`, `Text`, `Input`, `SVG`) instead of generic React/DOM APIs.
+- For state:
+  - Only call `useSyncedState` in the root widget component (`TextToChecklistWidget` in `code.tsx`).
+  - Pass state and setters down via props; **do not** introduce additional global or module-level mutable state.
+- When interacting with `figma.showUI` / `figma.ui`:
+  - Keep message types small and explicit (e.g. `{ type: 'add-tasks', text }`).
+  - Handle all `figma.ui.onmessage` branches defensively (null/empty text, unexpected types).
+
+## Tasks & Parsing
+
+- Always operate on `TaskItem` arrays; do not introduce alternative task shapes.
+- When adding tasks from text:
+  - Call `parseTasks` with the raw string.
+  - Append or merge using a deep-copied `tasks` array:
+    ```ts
+    const newTasks = parseTasks(msg.text);
+    setTasks([...tasks, ...newTasks]);
+    ```
+- If you extend parsing (e.g. new bullet formats, indentation rules), do so inside `parseTasks.ts` and keep it **pure** and testable.
+
+## Components
+
+- `Header`:
+  - Renders title, subtitle, and theme toggle only; do not add task mutation logic here.
+- `ActionBar`:
+  - Owns high-level actions (add items, toggle edit/delete modes, clear/delete completed, export).
+  - Avoid embedding parsing or formatting logic that belongs in `utils/`.
+- `TaskRow`:
+  - Owns checkbox behavior, indent/outdent, text editing, merge-up, and URL chips.
+  - When modifying the `tasks` array, follow the deep-copy pattern and keep behavior consistent for parent/child tasks.
+
+## Theming, Colors, Icons
+
+- Always obtain colors and theme values via `getTheme(isDark)` and constants in `widget-src/constants/colors.ts`.
+- Always obtain icons via `ICON_*` imports from `widget-src/constants/icons.ts`.
+- Do not hardcode hex values or inline SVGs into components; add them to the constants files instead.

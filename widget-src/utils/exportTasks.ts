@@ -53,7 +53,13 @@ export function buildExportHtml(text: string): string {
     function copy() {
       const ta = document.getElementById('out');
       ta.select();
-      document.execCommand('copy');
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(ta.value).catch(function () {
+          document.execCommand('copy');
+        });
+      } else {
+        document.execCommand('copy');
+      }
       const btn = document.getElementById('btn');
       btn.textContent = 'Copied!';
       btn.classList.add('copied');

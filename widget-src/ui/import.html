@@ -91,6 +91,10 @@
 
         // Intercept paste to handle HTML/Rich Text content
         textarea.addEventListener('paste', (e) => {
+            if (!e.clipboardData) {
+                return; // Fallback: let the browser handle the paste normally
+            }
+
             // Get the HTML content from the clipboard (requires permission or trusted event)
             const html = e.clipboardData.getData('text/html');
             

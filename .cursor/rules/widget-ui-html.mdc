@@ -1,0 +1,30 @@
+---
+description: HTML UI rules for widget-side modals
+globs: widget-src/ui/*.html
+alwaysApply: false
+---
+
+## Messaging Contract
+
+- Communicate with the widget using `window.parent.postMessage` with a `pluginMessage` payload, e.g.:
+  ```js
+  window.parent.postMessage(
+    { pluginMessage: { type: 'add-tasks', text } },
+    '*'
+  );
+  ```
+- Keep message `type` values short and descriptive (`'add-tasks'`, `'export-close'`, etc.) and handle them in `ActionBar` / widget code.
+
+## HTML & Assets
+
+- Do not load external scripts or CSS from CDNs; keep HTML self-contained for reliability.
+- Keep the UI simple: textarea/input for text, minimal buttons, lightweight inline styles or a small embedded stylesheet.
+- Avoid heavy libraries; plain HTML/CSS/JS is preferred to keep bundle size and complexity low.
+
+## UX Expectations
+
+- The import UI should:
+  - Clearly prompt the user to paste or type their list.
+  - Send the final text when the user confirms (e.g. clicks "Add").
+  - Close itself cleanly after sending a successful message.
+- Any future modals (e.g. export view) should follow the same messaging pattern and stay focused on one task at a time.

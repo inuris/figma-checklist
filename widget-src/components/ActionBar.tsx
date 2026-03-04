@@ -35,9 +35,11 @@ export function ActionBar({
       spacing={12}
       padding={{ vertical: 16, horizontal: 24 }}
       fill={t.bgHover}
+      name="ActionBar"
     >
       {/* Add Items Button */}
       <AutoLayout
+        name="AddItemsButton"
         padding={{ vertical: 8, horizontal: 16 }}
         cornerRadius={8}
         fill={t.accent}
@@ -72,7 +74,7 @@ export function ActionBar({
         verticalAlignItems="center"
         spacing={8}
       >
-        <SVG src={ICON_PLUS} />
+        <SVG name="PlusIcon" src={ICON_PLUS} />
         <Text fontSize={14} fontWeight="bold" fill={t.white} fontFamily="Inter">
           Add Items
         </Text>
@@ -80,10 +82,11 @@ export function ActionBar({
 
       {/* Edit / Remove Toggles */}
       {tasks.length > 0 && (
-        <AutoLayout spacing={8} verticalAlignItems="center">
+        <AutoLayout spacing={8} verticalAlignItems="center" name="EditRemoveToggles">
           {/* Edit Toggle */}
           <AutoLayout
             verticalAlignItems="center"
+            name="EditToggle"
             spacing={6}
             onClick={() => {
               if (!isEditing) setIsRemoving(false);
@@ -138,7 +141,7 @@ export function ActionBar({
           horizontalAlignItems="end"
           verticalAlignItems="center"
           spacing={16}
-        >
+          name="DeleteCompletedClearAll">
           {tasks.some(t => t.checked) && (
             <Text
               fontSize={12}
@@ -178,8 +181,9 @@ export function ActionBar({
           width="fill-parent"
           horizontalAlignItems="end"
           verticalAlignItems="center"
-        >
+          name="ExportButton">
           <AutoLayout
+            name="ExportButtonContainer"
             padding={8}
             cornerRadius={8}
             fill={t.transparent}

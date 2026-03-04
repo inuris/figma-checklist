@@ -1,0 +1,61 @@
+---
+description: Core architecture and constraints for the Figma Checklist Converter widget
+alwaysApply: true
+---
+
+## Project Overview
+
+- This is a Figma/FigJam **widget**, not a plugin: use the `figma.widget` API (e.g. `AutoLayout`, `Text`, `Input`, `SVG`, `useSyncedState`).
+- Purpose: **convert multi-line text** into a structured checklist with parent tasks and sub-tasks, and keep their state in sync and persisted.
+
+## Architecture & Files
+
+- **Entry point**: keep `widget-src/code.tsx` focused on:
+  - Declaring `useSyncedState` for `tasks`, `isEditing`, `isRemoving`, and `isDark`.
+  - Composing presentational components (`Header`, `ActionBar`, `TaskRow`).
+  - Calling `widget.register(...)`.
+- **Shared types**: use `TaskItem` from `widget-src/types.ts` whenever you work with checklist items.
+- **Logic vs. UI**:
+  - Parsing / export / URL logic must live in `widget-src/utils/*.ts`.
+  - Colors and icons must be imported from `widget-src/constants/*` (no hardcoded hex values or inline SVG strings in components).
+- **Build output**: never edit `dist/code.js` directly; always work in `widget-src/` and use `npm run build` / `npm run watch`.
+
+## State & Updates
+
+- All persistent widget state lives in `useSyncedState` calls in `widget-src/code.tsx`.
+- When updating `tasks` or other array/object state:
+  - **Always deep-copy** before mutating so Figma detects changes, e.g.:
+    ```ts
+    const copy: TaskItem[] = JSON.parse(JSON.stringify(tasks));
+    // modify copy
+    setTasks(copy);
+    ```
+  - Avoid in-place mutation of the existing `tasks` array.
+
+## Behavior Invariants
+
+- **Parent/child semantics**:
+  - `TaskItem.isChild === true` means sub-task; `false`/`undefined` means parent.
+  - Preserve the parent/child checkbox behavior in `TaskRow`:
+    - Checking a parent checks all its immediate children.
+    - If all children under a parent are checked, the parent becomes checked.
+    - Unchecking a child must be able to uncheck its parent.
+- **Text to tasks**:
+  - For converting raw input text into tasks, reuse and extend `parseTasks` in `widget-src/utils/parseTasks.ts` instead of duplicating parsing logic in components.
+  - Keep `parseTasks` as a pure function that only depends on its arguments.
+
+## Tooling & Quality
+
+- Respect existing tooling:
+  - Use `npm run lint` and `npm run lint:fix` to keep ESLint (with TypeScript + Figma rules) passing.
+  - Use `npm run tsc` to keep TypeScript type-checks clean.
+- Prefer small, focused components and utilities over large, monolithic files.
+- Maintain readability for designers and developers who may not be TypeScript experts (clear names, minimal cleverness).
+
+## AI Memory Across Sessions
+
+- Treat everything under `.cursor/` (especially `.cursor/rules/`) as the AI agent's **persistent project memory**.
+- On every new Cursor session for this repo:
+  - Load and follow these rules as if they were written in the current session.
+  - Assume `.cursor/rules/` is the source of truth for project architecture, patterns, and constraints.
+- When the implementation or patterns change, the AI agent should proactively update or add rules in `.cursor/rules/` so this memory stays accurate, non-duplicated, and conflict-free.
