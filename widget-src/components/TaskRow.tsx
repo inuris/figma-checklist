@@ -19,6 +19,9 @@ interface TaskRowProps {
   tasks: TaskItem[];
   isEditing: boolean;
   isRemoving: boolean;
+  isMoving: boolean;
+  moveSelectedIds: string[];
+  onToggleMoveSelected: (id: string) => void;
   isDark: boolean;
   setTasks: (tasks: TaskItem[]) => void;
 }
@@ -29,9 +32,13 @@ export function TaskRow({
   tasks,
   isEditing,
   isRemoving,
+  isMoving,
+  moveSelectedIds,
+  onToggleMoveSelected,
   isDark,
   setTasks,
 }: TaskRowProps) {
+  const isMoveSelected = moveSelectedIds.includes(task.id);
   const t = getTheme(isDark);
   return (
     <AutoLayout
@@ -267,6 +274,25 @@ export function TaskRow({
 
         </AutoLayout>
 
+        {/* Move checkbox (move mode only) — select task for group move */}
+        {isMoving && (
+          <AutoLayout
+            name="MoveCheckbox"
+            width={20}
+            height={20}
+            cornerRadius={6}
+            fill={isMoveSelected ? t.accent : t.checkboxBg}
+            stroke={isMoveSelected ? t.accent : t.checkboxUnchecked}
+            strokeWidth={1.5}
+            horizontalAlignItems="center"
+            verticalAlignItems="center"
+            onClick={() => onToggleMoveSelected(task.id)}
+            hoverStyle={!isMoveSelected ? { stroke: t.checkboxHover } : {}}
+          >
+            {isMoveSelected && <SVG name="MoveCheckIcon" src={ICON_CHECK} />}
+          </AutoLayout>
+        )}
+
         {/* Merge Up button (edit mode only, not first item) */}
         {isEditing && index > 0 && (
           <AutoLayout
@@ -295,6 +321,7 @@ export function TaskRow({
             <SVG name="MergeUpIcon" src={ICON_MERGE} />
           </AutoLayout>
         )}
+
       </AutoLayout>
     </AutoLayout>
   );

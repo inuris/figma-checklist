@@ -11,20 +11,26 @@ interface ActionBarProps {
   tasks: TaskItem[];
   isEditing: boolean;
   isRemoving: boolean;
+  isMoving: boolean;
   isDark: boolean;
   setTasks: (tasks: TaskItem[]) => void;
   setIsEditing: (val: boolean) => void;
   setIsRemoving: (val: boolean) => void;
+  setIsMoving: (val: boolean) => void;
+  setMoveSelectedIds: (ids: string[]) => void;
 }
 
 export function ActionBar({
   tasks,
   isEditing,
   isRemoving,
+  isMoving,
   isDark,
   setTasks,
   setIsEditing,
   setIsRemoving,
+  setIsMoving,
+  setMoveSelectedIds,
 }: ActionBarProps) {
   const t = getTheme(isDark);
   return (
@@ -80,14 +86,18 @@ export function ActionBar({
         </Text>
       </AutoLayout>
 
-      {/* Edit / Remove Toggles */}
+      {/* Edit / Move / Remove Toggles */}
       {tasks.length > 0 && (
         <AutoLayout spacing={12} verticalAlignItems="center" name="EditRemoveToggles">
           {/* Edit "capsule" switch (no ON/OFF label, sized similar to Add Items) */}
           <AutoLayout
             name="EditToggleGroup"
             onClick={() => {
-              if (!isEditing) setIsRemoving(false);
+              const next = !isEditing;
+              if (next) {
+                setIsRemoving(false);
+                setIsMoving(false);
+              }
               setIsEditing(!isEditing);
             }}
           >
@@ -150,7 +160,11 @@ export function ActionBar({
           <AutoLayout
             name="RemoveToggleGroup"
             onClick={() => {
-              if (!isRemoving) setIsEditing(false);
+              const next = !isRemoving;
+              if (next) {
+                setIsEditing(false);
+                setIsMoving(false);
+              }
               setIsRemoving(!isRemoving);
             }}
           >
@@ -208,6 +222,75 @@ export function ActionBar({
               </AutoLayout>
             )}
           </AutoLayout>
+
+          {/* Move "capsule" switch */}
+          <AutoLayout
+            name="MoveToggleGroup"
+            onClick={() => {
+              const next = !isMoving;
+              if (next) {
+                setIsEditing(false);
+                setIsRemoving(false);
+              } else {
+                setMoveSelectedIds([]);
+              }
+              setIsMoving(next);
+            }}
+          >
+            {isMoving ? (
+              <AutoLayout
+                name="MoveToggleOn"
+                padding={{ vertical: 8, horizontal: 16 }}
+                cornerRadius={999}
+                spacing={10}
+                fill={t.white}
+                stroke={t.primary}
+                verticalAlignItems="center"
+              >
+                <AutoLayout
+                  name="MoveKnobOn"
+                  width={20}
+                  height={20}
+                  cornerRadius={999}
+                  fill={t.primary}
+                />
+                <Text
+                  fontSize={14}
+                  fontWeight="bold"
+                  fill={t.primary}
+                  fontFamily="Inter"
+                >
+                  Move
+                </Text>
+              </AutoLayout>
+            ) : (
+              <AutoLayout
+                name="MoveToggleOff"
+                padding={{ vertical: 8, horizontal: 16 }}
+                cornerRadius={999}
+                spacing={10}
+                fill={t.white}
+                stroke={t.border}
+                verticalAlignItems="center"
+              >
+                <Text
+                  fontSize={14}
+                  fontWeight="bold"
+                  fill={t.muted}
+                  fontFamily="Inter"
+                >
+                  Move
+                </Text>
+                <AutoLayout
+                  name="MoveKnobOff"
+                  width={20}
+                  height={20}
+                  cornerRadius={999}
+                  fill={t.border}
+                />
+              </AutoLayout>
+            )}
+          </AutoLayout>
         </AutoLayout>
       )}
 
@@ -241,6 +324,7 @@ export function ActionBar({
               setTasks([]);
               setIsEditing(false);
               setIsRemoving(false);
+              setIsMoving(false);
             }}
             hoverStyle={{ fill: t.dangerHover }}
             fontWeight="bold"
