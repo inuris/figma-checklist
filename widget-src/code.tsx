@@ -27,12 +27,26 @@ const gradientBackground = {
 
 function TextToChecklistWidget() {
   const [tasks, setTasks] = useSyncedState<TaskItem[]>('tasks', []);
+  const [taskHistory, setTaskHistory] = useSyncedState<TaskItem[][]>('taskHistory', []);
   const [isEditing, setIsEditing] = useSyncedState('isEditing', false);
   const [isRemoving, setIsRemoving] = useSyncedState('isRemoving', false);
   const [moveSelectedIds, setMoveSelectedIds] = useSyncedState<string[]>('moveSelectedIds', []);
   const [isDark, setIsDark] = useSyncedState('isDark', false);
 
   const theme = getTheme(isDark);
+
+  const MAX_UNDO = 50;
+  const setTasksWithHistory = (newTasks: TaskItem[]) => {
+    setTaskHistory([...taskHistory.slice(-(MAX_UNDO - 1)), JSON.parse(JSON.stringify(tasks))]);
+    setTasks(newTasks);
+  };
+  const canUndo = taskHistory.length > 0;
+  const undo = () => {
+    if (taskHistory.length === 0) return;
+    const prev = taskHistory[taskHistory.length - 1];
+    setTaskHistory(taskHistory.slice(0, -1));
+    setTasks(prev);
+  };
 
   // Indices of tasks that are checked for move (0-based) — used when Edit mode is on
   const selectedIndices = tasks
@@ -53,7 +67,7 @@ function TextToChecklistWidget() {
         [copy[i - 1], copy[i]] = [copy[i], copy[i - 1]];
       }
     }
-    setTasks(copy);
+    setTasksWithHistory(copy);
   };
 
   // Move each checked task down by 1 row; tasks at bottom stay
@@ -66,7 +80,7 @@ function TextToChecklistWidget() {
         [copy[i], copy[i + 1]] = [copy[i + 1], copy[i]];
       }
     }
-    setTasks(copy);
+    setTasksWithHistory(copy);
   };
 
   const toggleMoveSelected = (id: string) => {
@@ -110,7 +124,7 @@ function TextToChecklistWidget() {
           isEditing={isEditing}
           isRemoving={isRemoving}
           isDark={isDark}
-          setTasks={setTasks}
+          setTasks={setTasksWithHistory}
           setIsEditing={setIsEditing}
           setIsRemoving={setIsRemoving}
           setMoveSelectedIds={setMoveSelectedIds}
@@ -118,6 +132,8 @@ function TextToChecklistWidget() {
           moveSelectedDown={moveSelectedDown}
           canMoveUp={canMoveUp}
           canMoveDown={canMoveDown}
+          onUndo={undo}
+          canUndo={canUndo}
         />
 
         {tasks.length > 0 ? (
@@ -138,9 +154,9 @@ function TextToChecklistWidget() {
                 isEditing={isEditing}
                 isRemoving={isRemoving}
                 moveSelectedIds={moveSelectedIds}
-                  onToggleMoveSelected={toggleMoveSelected}
-                  isDark={isDark}
-                  setTasks={setTasks}
+                onToggleMoveSelected={toggleMoveSelected}
+                isDark={isDark}
+                setTasks={setTasksWithHistory}
                 />
               ))}
             </AutoLayout>
