@@ -5,6 +5,8 @@ import { TaskItem } from '../types';
 import { getTheme } from '../utils/theme';
 import {
   ICON_CHECK,
+  ICON_CHECK_MOVE_LIGHT,
+  ICON_CHECK_MOVE_DARK,
   ICON_INDENT,
   ICON_LINK,
   ICON_MERGE,
@@ -281,15 +283,17 @@ export function TaskRow({
             width={20}
             height={20}
             cornerRadius={6}
-            fill={isMoveSelected ? t.accent : t.checkboxBg}
-            stroke={isMoveSelected ? t.accent : t.checkboxUnchecked}
+            fill={isMoveSelected ? t.moveBg : t.checkboxBg}
+            stroke={isMoveSelected ? t.moveBg : t.checkboxUnchecked}
             strokeWidth={1.5}
             horizontalAlignItems="center"
             verticalAlignItems="center"
             onClick={() => onToggleMoveSelected(task.id)}
             hoverStyle={!isMoveSelected ? { stroke: t.checkboxHover } : {}}
           >
-            {isMoveSelected && <SVG name="MoveCheckIcon" src={ICON_CHECK} />}
+            {isMoveSelected && (
+              <SVG name="MoveCheckIcon" src={isDark ? ICON_CHECK_MOVE_DARK : ICON_CHECK_MOVE_LIGHT} />
+            )}
           </AutoLayout>
         )}
 

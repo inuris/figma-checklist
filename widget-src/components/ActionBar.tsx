@@ -33,16 +33,29 @@ export function ActionBar({
   setMoveSelectedIds,
 }: ActionBarProps) {
   const t = getTheme(isDark);
+
+  const modeTooltip =
+    isEditing ? 'Edit: change text, indent, or merge tasks.'
+    : isMoving ? 'Move: check tasks on the right, then use ↑ / ↓ to reorder.'
+    : isRemoving ? 'Delete: click × on a task to remove it.'
+    : null;
+
   return (
     <AutoLayout
       width="fill-parent"
-      verticalAlignItems="center"
-      horizontalAlignItems="start"
-      spacing={12}
+      direction="vertical"
+      spacing={8}
       padding={{ vertical: 16, horizontal: 24 }}
       fill={t.bgHover}
       name="ActionBar"
     >
+      <AutoLayout
+        width="fill-parent"
+        verticalAlignItems="center"
+        horizontalAlignItems="start"
+        spacing={12}
+        name="ActionBarRow"
+      >
       {/* Add Items Button */}
       <AutoLayout
         name="AddItemsButton"
@@ -240,11 +253,11 @@ export function ActionBar({
             {isMoving ? (
               <AutoLayout
                 name="MoveToggleOn"
-                padding={{ vertical: 8, horizontal: 16 }}
+                padding={{ top: 8, bottom: 8, left: 8, right: 16 }}
                 cornerRadius={999}
                 spacing={10}
                 fill={t.white}
-                stroke={t.primary}
+                stroke={t.move}
                 verticalAlignItems="center"
               >
                 <AutoLayout
@@ -252,12 +265,12 @@ export function ActionBar({
                   width={20}
                   height={20}
                   cornerRadius={999}
-                  fill={t.primary}
+                  fill={t.move}
                 />
                 <Text
                   fontSize={14}
                   fontWeight="bold"
-                  fill={t.primary}
+                  fill={t.move}
                   fontFamily="Inter"
                 >
                   Move
@@ -266,7 +279,7 @@ export function ActionBar({
             ) : (
               <AutoLayout
                 name="MoveToggleOff"
-                padding={{ vertical: 8, horizontal: 16 }}
+                padding={{ top: 8, bottom: 8, left: 16, right: 8 }}
                 cornerRadius={999}
                 spacing={10}
                 fill={t.white}
@@ -367,6 +380,25 @@ export function ActionBar({
           >
             <SVG src={ICON_EXPORT} />
           </AutoLayout>
+        </AutoLayout>
+      )}
+      </AutoLayout>
+
+      {/* Tooltip bar: simple guide for current mode */}
+      {tasks.length > 0 && modeTooltip && (
+        <AutoLayout
+          name="ModeTooltipBar"
+          width="fill-parent"
+          padding={{ top: 4, bottom: 0, left: 0, right: 0 }}
+        >
+          <Text
+            name="ModeTooltipText"
+            fontSize={12}
+            fill={t.muted}
+            fontFamily="Inter"
+          >
+            {modeTooltip}
+          </Text>
         </AutoLayout>
       )}
     </AutoLayout>
