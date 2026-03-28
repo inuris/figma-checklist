@@ -389,7 +389,7 @@ export function ActionBar({
           name="ModeTooltipBar"
           width="fill-parent"
           direction="horizontal"
-          spacing="auto"
+          spacing={LAYOUT.actionBar.rowGap}
           verticalAlignItems="center"
           padding={{ top: LAYOUT.actionBar.tooltipPadTop, bottom: 0, left: 0, right: 0 }}
         >
@@ -402,16 +402,23 @@ export function ActionBar({
             {modeTooltip.left}
           </Text>
 
-          {modeTooltip.right && (
-            <Text
-              name="ModeTooltipTextRight"
-              fontSize={LAYOUT.actionBar.tooltipFont}
-              fill={t.muted}
-              fontFamily="Inter"
+          {modeTooltip.right !== '' ? (
+            <AutoLayout
+              name="ModeTooltipRightWrap"
+              width="fill-parent"
+              horizontalAlignItems="end"
+              verticalAlignItems="center"
             >
-              {modeTooltip.right}
-            </Text>
-          )}
+              <Text
+                name="ModeTooltipTextRight"
+                fontSize={LAYOUT.actionBar.tooltipFont}
+                fill={t.muted}
+                fontFamily="Inter"
+              >
+                {modeTooltip.right}
+              </Text>
+            </AutoLayout>
+          ) : null}
         </AutoLayout>
       )}
     </AutoLayout>

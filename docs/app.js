@@ -913,10 +913,12 @@
       const tip = document.createElement("div");
       tip.className = "mode-tooltip";
       const left2 = document.createElement("span");
+      left2.className = "mode-tooltip-left";
       left2.textContent = modeTooltip.left;
       tip.append(left2);
-      if (modeTooltip.right) {
+      if (modeTooltip.right !== "") {
         const right = document.createElement("span");
+        right.className = "mode-tooltip-right";
         right.textContent = modeTooltip.right;
         tip.append(right);
       }

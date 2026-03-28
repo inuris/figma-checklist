@@ -563,10 +563,12 @@ function render(): void {
     const tip = document.createElement('div');
     tip.className = 'mode-tooltip';
     const left = document.createElement('span');
+    left.className = 'mode-tooltip-left';
     left.textContent = modeTooltip.left;
     tip.append(left);
-    if (modeTooltip.right) {
+    if (modeTooltip.right !== '') {
       const right = document.createElement('span');
+      right.className = 'mode-tooltip-right';
       right.textContent = modeTooltip.right;
       tip.append(right);
     }

@@ -269,14 +269,19 @@
 
     .mode-tooltip {
       display: flex;
-      justify-content: space-between;
       align-items: center;
       gap: var(--layout-mode-tooltip-gap);
       padding: var(--layout-tooltip-pad-top) 0 0;
       font-size: var(--layout-tooltip-font);
       color: var(--t-muted);
+      width: 100%;
+      justify-content: flex-start;
     }
-    .mode-tooltip span:last-child { text-align: right; }
+    /* Only the optional second line uses margin-left: auto (not :last-child — that wrongly targeted a single tip) */
+    .mode-tooltip-right {
+      margin-left: auto;
+      text-align: right;
+    }
 
     /* Tasks */
     .tasks-wrap { padding-bottom: var(--layout-tasks-wrap-pad-bottom); }
