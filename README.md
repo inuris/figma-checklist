@@ -1,14 +1,38 @@
 # Figma Checklist Converter
 
-Transform any block of text into an interactive, trackable checklist — right inside Figma or FigJam. Paste your notes, meeting minutes, or requirements and instantly get a structured checklist with parent tasks and sub-tasks.
-
-The **Figma widget** in `widget-src/` is the primary product. Task types and the text parser live in **`shared/`** so a small **browser checklist** (`web/`) stays in sync when you change parsing rules.
+Turn messy notes into a **living checklist**—without leaving Figma or FigJam. Paste a numbered list, bullets, or plain lines and watch it become tasks you can check off, nest, edit, and export.
 
 ---
 
-## Web checklist (GitHub Pages)
+## Try it in your browser
 
-A minimal static page: paste lists with the same rules as the widget, check items off, **Clear completed** or **Clear all**. Data is stored only in **localStorage** (no backend).
+Want a quick spin **outside** Figma? The same parsing rules work in a lightweight web version—everything stays in your browser (localStorage only):
+
+**[https://inuris.github.io/figma-checklist-converter](https://inuris.github.io/figma-checklist-converter)**
+
+---
+
+## Figma Community About
+
+Community **About** copy is in **[`FIGMA_COMMUNITY_ABOUT.md`](FIGMA_COMMUNITY_ABOUT.md)**. Copy the entire file and paste it into the widget **About** field on Figma Community.
+
+---
+
+## At a glance
+
+| Channel | **Widget (Figma / FigJam)** | **Web (GitHub Pages)** |
+|---------|----------------------------|-------------------------|
+| **Where** | On the canvas | [inuris.github.io/figma-checklist-converter](https://inuris.github.io/figma-checklist-converter) |
+| **Storage** | Saved with the widget | `localStorage` in your browser |
+| **Code** | `widget-src/` (primary) | `web/` + `shared/` parser |
+
+Task types and the text parser live in **`shared/`** so the site and widget stay aligned when parsing rules change.
+
+---
+
+## Web checklist (GitHub Pages — developers)
+
+A static build mirrors the widget UI for the live site: **Clear completed**, **Clear all**, edit/delete modes, themes, etc.
 
 - **Build:** `npm run build:web` — writes `docs/index.html`, `docs/app.js`, and `docs/.nojekyll`.
 - **GitHub Pages (Actions):** enable **Settings → Pages → Build and deployment → GitHub Actions**. Pushes to `main` run `.github/workflows/pages.yml` and publish the `docs` output.
