@@ -1,6 +1,1 @@
-export interface TaskItem {
-  id: string;
-  text: string;
-  checked: boolean;
-  isChild?: boolean;
-}
+export type { TaskItem } from '../shared/types';

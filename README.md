@@ -2,6 +2,18 @@
 
 Transform any block of text into an interactive, trackable checklist — right inside Figma or FigJam. Paste your notes, meeting minutes, or requirements and instantly get a structured checklist with parent tasks and sub-tasks.
 
+The **Figma widget** in `widget-src/` is the primary product. Task types and the text parser live in **`shared/`** so a small **browser checklist** (`web/`) stays in sync when you change parsing rules.
+
+---
+
+## Web checklist (GitHub Pages)
+
+A minimal static page: paste lists with the same rules as the widget, check items off, **Clear completed** or **Clear all**. Data is stored only in **localStorage** (no backend).
+
+- **Build:** `npm run build:web` — writes `docs/index.html`, `docs/app.js`, and `docs/.nojekyll`.
+- **GitHub Pages (Actions):** enable **Settings → Pages → Build and deployment → GitHub Actions**. Pushes to `main` run `.github/workflows/pages.yml` and publish the `docs` output.
+- **GitHub Pages (branch folder):** run `npm run build:web`, commit the `docs/` folder, set Pages source to `/docs` on `main`.
+
 ---
 
 ## Getting Started

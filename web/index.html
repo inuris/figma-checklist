@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Checklist</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f6f6f6;
+      --fg: #111;
+      --muted: #666;
+      --border: #ccc;
+      --accent: #0d6efd;
+      --row-bg: #fff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1a1a1a;
+        --fg: #eee;
+        --muted: #999;
+        --border: #444;
+        --accent: #6ea8fe;
+        --row-bg: #252525;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      margin: 0;
+      padding: 1rem;
+      max-width: 40rem;
+      margin-inline: auto;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.45;
+    }
+    h1 { font-size: 1.25rem; font-weight: 600; margin: 0 0 1rem; }
+    .panel {
+      background: var(--row-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    textarea {
+      width: 100%;
+      min-height: 5rem;
+      padding: 0.5rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font: inherit;
+      resize: vertical;
+      background: var(--bg);
+      color: var(--fg);
+    }
+    .row-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    button {
+      font: inherit;
+      padding: 0.35rem 0.65rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--row-bg);
+      color: var(--fg);
+      cursor: pointer;
+    }
+    button:hover { filter: brightness(0.97); }
+    button.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    @media (prefers-color-scheme: dark) {
+      button.primary { color: #111; }
+    }
+    .hint { font-size: 0.8rem; color: var(--muted); margin: 0.35rem 0 0; }
+    ul.tasks {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    li.task {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      padding: 0.4rem 0.25rem;
+      border-bottom: 1px solid var(--border);
+    }
+    li.task:last-child { border-bottom: none; }
+    li.task.child { padding-left: 1.25rem; }
+    li.task input[type="checkbox"] { margin-top: 0.25rem; flex-shrink: 0; }
+    li.task label {
+      flex: 1;
+      cursor: pointer;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    li.task.checked label {
+      text-decoration: line-through;
+      color: var(--muted);
+    }
+    .empty { color: var(--muted); font-size: 0.9rem; padding: 0.5rem 0; }
+  </style>
+</head>
+<body>
+  <h1>Checklist</h1>
+  <div class="panel">
+    <textarea id="paste" placeholder="Paste a list (same rules as the Figma widget)…" aria-label="Paste tasks"></textarea>
+    <div class="row-actions">
+      <button type="button" class="primary" id="btn-add">Add to list</button>
+      <button type="button" id="btn-replace">Replace list</button>
+    </div>
+    <p class="hint">Stored only in this browser (localStorage). Nothing is sent to a server.</p>
+  </div>
+  <div class="panel">
+    <div class="row-actions" style="margin-top:0">
+      <button type="button" id="btn-clear-done">Clear completed</button>
+      <button type="button" id="btn-clear-all">Clear all</button>
+    </div>
+    <ul class="tasks" id="tasks" aria-live="polite"></ul>
+    <p class="empty" id="empty" hidden>No tasks yet — paste a list above.</p>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
