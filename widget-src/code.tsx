@@ -1,28 +1,18 @@
 const { widget } = figma;
 const { AutoLayout, Text, useSyncedState } = widget;
 
+import { LAYOUT, WIDGET_CARD_GRADIENT_HANDLES, WIDGET_CARD_GRADIENT_STOPS } from '../shared/layout';
+import { UI } from '../shared/uiCopy';
 import { TaskItem } from './types';
 import { getTheme } from './utils/theme';
 import { Header } from './components/Header';
 import { ActionBar } from './components/ActionBar';
 import { TaskRow } from './components/TaskRow';
 
-// Gradient background behind the white checklist card
 const gradientBackground = {
   type: 'gradient-radial' as const,
-  gradientHandlePositions: [
-    { x: 0, y: 1 }, // bottom-left
-    { x: 1, y: 0 }, // top-right
-    { x: 1, y: 1 }, // controls radius
-  ] as [Vector, Vector, Vector],
-  gradientStops: [
-    // Teal in bottom-left
-    { position: 0, color: { r: 20 / 255, g: 244 / 255, b: 181 / 255, a: 1 } },
-    // Soft purple in the middle
-    { position: 0.5, color: { r: 99 / 255, g: 102 / 255, b: 241 / 255, a: 1 } },
-    // Pink toward the opposite side
-    { position: 1, color: { r: 236 / 255, g: 72 / 255, b: 153 / 255, a: 1 } },
-  ],
+  gradientHandlePositions: [...WIDGET_CARD_GRADIENT_HANDLES] as [Vector, Vector, Vector],
+  gradientStops: [...WIDGET_CARD_GRADIENT_STOPS],
 };
 
 function TextToChecklistWidget() {
@@ -92,9 +82,9 @@ function TextToChecklistWidget() {
   return (
     <AutoLayout
       direction="vertical"
-      padding={6}
-      width={640}
-      cornerRadius={8}
+      padding={LAYOUT.card.outerPad}
+      width={LAYOUT.card.maxWidth}
+      cornerRadius={LAYOUT.card.outerRadius}
       fill={[gradientBackground]}
       name="Card"
     >
@@ -102,13 +92,13 @@ function TextToChecklistWidget() {
         direction="vertical"
         padding={0}
         fill={theme.bg}
-        cornerRadius={6}
+        cornerRadius={LAYOUT.innerCard.radius}
         width="fill-parent"
         effect={{
           type: "drop-shadow",
           color: theme.shadow,
-          offset: { x: 0, y: 6 },
-          blur: 12,
+          offset: { x: 0, y: LAYOUT.innerCard.shadowOffsetY },
+          blur: LAYOUT.innerCard.shadowBlur,
         }}
         name="Container"
       >
@@ -141,7 +131,7 @@ function TextToChecklistWidget() {
             direction="vertical"
             spacing={0}
             width="fill-parent"
-            padding={{ bottom: 12 }}
+            padding={{ bottom: LAYOUT.task.listPadBottom }}
             name="TasksContainer"
           >
             <AutoLayout direction="vertical" spacing={0} width="fill-parent" name="Tasks">
@@ -165,17 +155,17 @@ function TextToChecklistWidget() {
           <AutoLayout
             name="EmptyChecklist"
             width="fill-parent"
-            height={200}
+            height={LAYOUT.empty.minHeight}
             horizontalAlignItems="center"
             verticalAlignItems="center"
             direction="vertical"
-            spacing={12}
+            spacing={LAYOUT.empty.gap}
           >
-            <Text name="EmptyChecklistText" fill={theme.muted} fontSize={14} fontFamily="Inter">
-              Your checklist is empty
+            <Text name="EmptyChecklistText" fill={theme.muted} fontSize={LAYOUT.empty.fontSize} fontFamily="Inter">
+              {UI.emptyLine1}
             </Text>
-            <Text name="EmptyChecklistButton" fill={theme.accent} fontSize={14} fontFamily="Inter" fontWeight="bold">
-              Start by adding some tasks
+            <Text name="EmptyChecklistButton" fill={theme.accent} fontSize={LAYOUT.empty.fontSize} fontFamily="Inter" fontWeight="bold">
+              {UI.emptyLine2}
             </Text>
           </AutoLayout>
         )}

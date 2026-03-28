@@ -1,6 +1,8 @@
 const { widget } = figma;
 const { AutoLayout, Text, SVG } = widget;
 
+import { LAYOUT } from '../../shared/layout';
+import { UI, progressSubtitle } from '../../shared/uiCopy';
 import { COLOR_SUCCESS } from '../constants/colors';
 import { ICON_MOON, ICON_SUN, ICON_UNDO } from '../constants/icons';
 import { getTheme } from '../utils/theme';
@@ -23,43 +25,39 @@ export function Header({ taskCount, completedCount, isDark, setIsDark, onUndo, c
       name="CardHeader"
       width="fill-parent"
       verticalAlignItems="center"
-      padding={{ vertical: 20, horizontal: 24 }}
+      padding={{ vertical: LAYOUT.header.padV, horizontal: LAYOUT.header.padH }}
       fill={t.bg}
       stroke={{ type: 'solid', color: t.border }}
-      spacing={12}
+      spacing={LAYOUT.header.gap}
     >
       {/* Title + subtitle */}
-      <AutoLayout direction="vertical" spacing={4} width="fill-parent" name="Title">
+      <AutoLayout direction="vertical" spacing={LAYOUT.header.titleSubtitleGap} width="fill-parent" name="Title">
         <Text
-          fontSize={20}
+          fontSize={LAYOUT.header.titleSize}
           fontWeight="bold"
           fill={t.primary}
-          letterSpacing={-0.5}
+          letterSpacing={LAYOUT.header.titleLetterSpacing}
           fontFamily="Inter"
         >
-          Checklist
+          {UI.title}
         </Text>
         <Text
-          fontSize={12}
+          fontSize={LAYOUT.header.subtitleSize}
           fill={allDone ? COLOR_SUCCESS : t.muted}
           fontFamily="Inter"
           fontWeight={allDone ? "bold" : "normal"}
         >
-          {taskCount === 0
-            ? "No tasks yet"
-            : allDone
-              ? `All ${taskCount} tasks completed ✓`
-              : `${completedCount} / ${taskCount} tasks completed`}
+          {progressSubtitle(taskCount, completedCount)}
         </Text>
       </AutoLayout>
 
       {/* Undo + Theme toggle — top right */}
-      <AutoLayout name="HeaderRight" spacing={8} verticalAlignItems="center">
+      <AutoLayout name="HeaderRight" spacing={LAYOUT.header.rightGap} verticalAlignItems="center">
         {onUndo && (
           <AutoLayout
             name="UndoHeaderButton"
-            padding={8}
-            cornerRadius={999}
+            padding={LAYOUT.header.iconBtnPad}
+            cornerRadius={LAYOUT.header.iconBtnRadius}
             fill={t.transparent}
             hoverStyle={{ fill: t.bgHover }}
             opacity={canUndo ? 1 : 0.4}
@@ -72,8 +70,8 @@ export function Header({ taskCount, completedCount, isDark, setIsDark, onUndo, c
         )}
         <AutoLayout
           name="ThemeToggle"
-          padding={8}
-          cornerRadius={999}
+          padding={LAYOUT.header.iconBtnPad}
+          cornerRadius={LAYOUT.header.iconBtnRadius}
           fill={t.transparent}
           hoverStyle={{ fill: t.bgHover }}
           horizontalAlignItems="center"

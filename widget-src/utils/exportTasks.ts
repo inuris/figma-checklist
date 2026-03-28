@@ -1,3 +1,4 @@
+import { UI } from '../../shared/uiCopy';
 import { TaskItem } from '../types';
 
 /**
@@ -45,9 +46,9 @@ export function buildExportHtml(text: string): string {
 </style>
 </head>
 <body>
-  <label>Your tasks — select all and copy, or click the button below</label>
+  <label>${UI.exportModalLabel}</label>
   <textarea id="out" readonly>${escaped}</textarea>
-  <button id="btn" onclick="copy()">Copy to Clipboard</button>
+  <button id="btn" onclick="copy()">${UI.exportCopy}</button>
   <script>
     document.getElementById('out').select();
     function copy() {
@@ -61,9 +62,9 @@ export function buildExportHtml(text: string): string {
         document.execCommand('copy');
       }
       const btn = document.getElementById('btn');
-      btn.textContent = 'Copied!';
+      btn.textContent = '${UI.exportCopied}';
       btn.classList.add('copied');
-      setTimeout(() => { btn.textContent = 'Copy to Clipboard'; btn.classList.remove('copied'); }, 2000);
+      setTimeout(() => { btn.textContent = '${UI.exportCopy}'; btn.classList.remove('copied'); }, 2000);
     }
   </script>
 </body>

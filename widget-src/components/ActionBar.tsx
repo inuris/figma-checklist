@@ -1,6 +1,8 @@
 const { widget } = figma;
 const { AutoLayout, Text, SVG } = widget;
 
+import { LAYOUT } from '../../shared/layout';
+import { UI, modeTooltipForState } from '../../shared/uiCopy';
 import { TaskItem } from '../types';
 import { parseTasks } from '../utils/parseTasks';
 import { exportTasksAsText, buildExportHtml } from '../utils/exportTasks';
@@ -38,25 +40,14 @@ export function ActionBar({
 }: ActionBarProps) {
   const t = getTheme(isDark);
 
-  const modeTooltip: { left: string; right: string } | null =
-    isEditing
-      ? {
-          left: 'Update text, double Enter to split',
-          right: 'Check then use ↑ / ↓ to reorder tasks',
-        }
-      : isRemoving
-      ? {
-          left: 'Click × to delete a task',
-          right: ' ',
-        }
-      : null;
+  const modeTooltip = modeTooltipForState(isEditing, isRemoving);
 
   return (
     <AutoLayout
       width="fill-parent"
       direction="vertical"
-      spacing={8}
-      padding={{ vertical: 16, horizontal: 24 }}
+      spacing={LAYOUT.actionBar.colGap}
+      padding={{ vertical: LAYOUT.actionBar.padV, horizontal: LAYOUT.actionBar.padH }}
       fill={t.bgHover}
       name="ActionBar"
     >
@@ -64,27 +55,27 @@ export function ActionBar({
         width="fill-parent"
         verticalAlignItems="center"
         horizontalAlignItems="start"
-        spacing={12}
+        spacing={LAYOUT.actionBar.rowGap}
         name="ActionBarRow"
       >
       {/* Add Items Button */}
       <AutoLayout
         name="AddItemsButton"
-        padding={{ vertical: 8, horizontal: 16 }}
-        cornerRadius={8}
+        padding={{ vertical: LAYOUT.addButton.padV, horizontal: LAYOUT.addButton.padH }}
+        cornerRadius={LAYOUT.addButton.radius}
         fill={t.accent}
         effect={{
           type: "drop-shadow",
           color: t.accentShadow,
-          offset: { x: 0, y: 4 },
-          blur: 8,
+          offset: { x: 0, y: LAYOUT.addButton.shadowOffsetY },
+          blur: LAYOUT.addButton.shadowBlur,
         }}
         onClick={() => {
           return new Promise<void>((resolve) => {
             figma.showUI(__html__, {
-              width: 500,
-              height: 400,
-              title: "Start typing or paste your list...",
+              width: LAYOUT.modals.addTasks.width,
+              height: LAYOUT.modals.addTasks.height,
+              title: UI.addModalTitle,
             });
             figma.ui.onmessage = (msg) => {
               if (msg.type === 'add-tasks' && msg.text) {
@@ -102,17 +93,17 @@ export function ActionBar({
         }}
         hoverStyle={{ fill: t.accentHover }}
         verticalAlignItems="center"
-        spacing={8}
+        spacing={LAYOUT.addButton.gap}
       >
         <SVG name="PlusIcon" src={ICON_PLUS} />
-        <Text fontSize={14} fontWeight="bold" fill={t.white} fontFamily="Inter">
-          Add Items
+        <Text fontSize={LAYOUT.addButton.fontSize} fontWeight="bold" fill={t.white} fontFamily="Inter">
+          {UI.addItems}
         </Text>
       </AutoLayout>
 
       {/* Edit / Move / Remove Toggles */}
       {tasks.length > 0 && (
-        <AutoLayout spacing={12} verticalAlignItems="center" name="EditRemoveToggles">
+        <AutoLayout spacing={LAYOUT.actionBar.rowGap} verticalAlignItems="center" name="EditRemoveToggles">
           {/* Edit "capsule" switch (no ON/OFF label, sized similar to Add Items) */}
           <AutoLayout
             name="EditToggleGroup"
@@ -129,51 +120,61 @@ export function ActionBar({
             {isEditing ? (
               <AutoLayout
                 name="EditToggleOn"
-                padding={{ top: 8, bottom: 8, left: 8, right: 16 }}
+                padding={{
+                  top: LAYOUT.capsule.on.top,
+                  bottom: LAYOUT.capsule.on.bottom,
+                  left: LAYOUT.capsule.on.left,
+                  right: LAYOUT.capsule.on.right,
+                }}
                 cornerRadius={999}
-                spacing={10}
+                spacing={LAYOUT.capsule.gap}
                 fill={t.white}
                 stroke={t.move}
                 verticalAlignItems="center"
               >
                 <AutoLayout
                   name="EditKnobOn"
-                  width={20}
-                  height={20}
+                  width={LAYOUT.capsule.knob}
+                  height={LAYOUT.capsule.knob}
                   cornerRadius={999}
                   fill={t.move}
                 />
                 <Text
-                  fontSize={14}
+                  fontSize={LAYOUT.capsule.fontSize}
                   fontWeight="bold"
                   fill={t.move}
                   fontFamily="Inter"
                 >
-                  Edit
+                  {UI.edit}
                 </Text>
               </AutoLayout>
             ) : (
               <AutoLayout
                 name="EditToggleOff"
-                padding={{ top: 8, bottom: 8, left: 16, right: 8 }}
+                padding={{
+                  top: LAYOUT.capsule.off.top,
+                  bottom: LAYOUT.capsule.off.bottom,
+                  left: LAYOUT.capsule.off.left,
+                  right: LAYOUT.capsule.off.right,
+                }}
                 cornerRadius={999}
-                spacing={10}
+                spacing={LAYOUT.capsule.gap}
                 fill={t.white}
                 stroke={t.border}
                 verticalAlignItems="center"
               >
                 <Text
-                  fontSize={14}
+                  fontSize={LAYOUT.capsule.fontSize}
                   fontWeight="bold"
                   fill={t.muted}
                   fontFamily="Inter"
                 >
-                  Edit
+                  {UI.edit}
                 </Text>
                 <AutoLayout
                   name="EditKnobOff"
-                  width={20}
-                  height={20}
+                  width={LAYOUT.capsule.knob}
+                  height={LAYOUT.capsule.knob}
                   cornerRadius={999}
                   fill={t.border}
                 />
@@ -195,51 +196,61 @@ export function ActionBar({
             {isRemoving ? (
               <AutoLayout
                 name="RemoveToggleOn"
-                padding={{ top: 8, bottom: 8, left: 8, right: 16 }}
+                padding={{
+                  top: LAYOUT.capsule.on.top,
+                  bottom: LAYOUT.capsule.on.bottom,
+                  left: LAYOUT.capsule.on.left,
+                  right: LAYOUT.capsule.on.right,
+                }}
                 cornerRadius={999}
-                spacing={10}
+                spacing={LAYOUT.capsule.gap}
                 fill={t.white}
                 stroke={t.danger}
                 verticalAlignItems="center"
               >
                 <AutoLayout
                   name="RemoveKnobOn"
-                  width={20}
-                  height={20}
+                  width={LAYOUT.capsule.knob}
+                  height={LAYOUT.capsule.knob}
                   cornerRadius={999}
                   fill={t.danger}
                 />
                 <Text
-                  fontSize={14}
+                  fontSize={LAYOUT.capsule.fontSize}
                   fontWeight="bold"
                   fill={t.danger}
                   fontFamily="Inter"
                 >
-                  Delete
+                  {UI.delete}
                 </Text>
               </AutoLayout>
             ) : (
               <AutoLayout
                 name="RemoveToggleOff"
-                padding={{ top: 8, bottom: 8, left: 16, right: 8 }}
+                padding={{
+                  top: LAYOUT.capsule.off.top,
+                  bottom: LAYOUT.capsule.off.bottom,
+                  left: LAYOUT.capsule.off.left,
+                  right: LAYOUT.capsule.off.right,
+                }}
                 cornerRadius={999}
-                spacing={10}
+                spacing={LAYOUT.capsule.gap}
                 fill={t.white}
                 stroke={t.border}
                 verticalAlignItems="center"
               >
                 <Text
-                  fontSize={14}
+                  fontSize={LAYOUT.capsule.fontSize}
                   fontWeight="bold"
                   fill={t.muted}
                   fontFamily="Inter"
                 >
-                  Delete
+                  {UI.delete}
                 </Text>
                 <AutoLayout
                   name="RemoveKnobOff"
-                  width={20}
-                  height={20}
+                  width={LAYOUT.capsule.knob}
+                  height={LAYOUT.capsule.knob}
                   cornerRadius={999}
                   fill={t.border}
                 />
@@ -255,11 +266,11 @@ export function ActionBar({
           width="fill-parent"
           horizontalAlignItems="end"
           verticalAlignItems="center"
-          spacing={16}
+          spacing={LAYOUT.actionBar.endLinksGap}
           name="DeleteCompletedClearAll">
           {tasks.some(t => t.checked) && (
             <Text
-              fontSize={12}
+              fontSize={LAYOUT.actionBar.linkFont}
               fill={t.muted}
               onClick={() => {
                 setTasks(tasks.filter(task => !task.checked));
@@ -269,11 +280,11 @@ export function ActionBar({
               fontFamily="Inter"
               textDecoration="underline"
             >
-              Delete Completed
+              {UI.deleteCompleted}
             </Text>
           )}
           <Text
-            fontSize={12}
+            fontSize={LAYOUT.actionBar.linkFont}
             fill={t.danger}
             onClick={() => {
               setTasks([]);
@@ -285,7 +296,7 @@ export function ActionBar({
             fontFamily="Inter"
             textDecoration="underline"
           >
-            Clear All
+            {UI.clearAll}
           </Text>
         </AutoLayout>
       )}
@@ -301,16 +312,16 @@ export function ActionBar({
           <AutoLayout
             name="MoveButtonsRow"
             direction="horizontal"
-            spacing={8}
+            spacing={LAYOUT.moveButton.gap}
             verticalAlignItems="center"
           >
             {moveSelectedUp != null && moveSelectedDown != null && (
               <>
                 <AutoLayout
                   name="MoveUpButton"
-                  width={28}
-                  height={28}
-                  cornerRadius={6}
+                  width={LAYOUT.moveButton.size}
+                  height={LAYOUT.moveButton.size}
+                  cornerRadius={LAYOUT.moveButton.radius}
                   fill={t.move}
                   horizontalAlignItems="center"
                   verticalAlignItems="center"
@@ -321,9 +332,9 @@ export function ActionBar({
                 </AutoLayout>
                 <AutoLayout
                   name="MoveDownButton"
-                  width={28}
-                  height={28}
-                  cornerRadius={6}
+                  width={LAYOUT.moveButton.size}
+                  height={LAYOUT.moveButton.size}
+                  cornerRadius={LAYOUT.moveButton.radius}
                   fill={t.move}
                   horizontalAlignItems="center"
                   verticalAlignItems="center"
@@ -346,8 +357,8 @@ export function ActionBar({
           name="ExportButton">
           <AutoLayout
             name="ExportButtonContainer"
-            padding={8}
-            cornerRadius={8}
+            padding={LAYOUT.exportButton.pad}
+            cornerRadius={LAYOUT.exportButton.radius}
             fill={t.transparent}
             hoverStyle={{ fill: t.surface }}
             onClick={() => {
@@ -355,9 +366,9 @@ export function ActionBar({
                 const exportedText = exportTasksAsText(tasks);
                 const html = buildExportHtml(exportedText);
                 figma.showUI(html, {
-                  width: 480,
-                  height: 360,
-                  title: 'Export Tasks',
+                  width: LAYOUT.modals.export.width,
+                  height: LAYOUT.modals.export.height,
+                  title: UI.exportWindowTitle,
                 });
                 figma.ui.onmessage = () => {
                   figma.ui.close();
@@ -380,11 +391,11 @@ export function ActionBar({
           direction="horizontal"
           spacing="auto"
           verticalAlignItems="center"
-          padding={{ top: 4, bottom: 0, left: 0, right: 0 }}
+          padding={{ top: LAYOUT.actionBar.tooltipPadTop, bottom: 0, left: 0, right: 0 }}
         >
           <Text
             name="ModeTooltipTextLeft"
-            fontSize={12}
+            fontSize={LAYOUT.actionBar.tooltipFont}
             fill={t.muted}
             fontFamily="Inter"
           >
@@ -394,7 +405,7 @@ export function ActionBar({
           {modeTooltip.right && (
             <Text
               name="ModeTooltipTextRight"
-              fontSize={12}
+              fontSize={LAYOUT.actionBar.tooltipFont}
               fill={t.muted}
               fontFamily="Inter"
             >

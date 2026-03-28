@@ -1,6 +1,7 @@
 const { widget } = figma;
 const { AutoLayout, SVG, Input, Text } = widget;
 
+import { LAYOUT } from '../../shared/layout';
 import { TaskItem } from '../types';
 import { getTheme } from '../utils/theme';
 import {
@@ -56,14 +57,14 @@ export function TaskRow({
       <AutoLayout
         name="TaskRowContent"
         padding={{
-          top: 16,
-          bottom: 16,
-          right: 24,
-          left: task.isChild ? 56 : 24,
+          top: LAYOUT.task.rowPadV,
+          bottom: LAYOUT.task.rowPadV,
+          right: LAYOUT.task.rowPadH,
+          left: task.isChild ? LAYOUT.task.childPadLeft : LAYOUT.task.rowPadH,
         }}
         width="fill-parent"
         verticalAlignItems="start"
-        spacing={16}
+        spacing={LAYOUT.task.rowGap}
         hoverStyle={{ fill: t.bgHover }}
         overflow="visible"
         fill={t.bg}
@@ -74,9 +75,9 @@ export function TaskRow({
         {isRemoving ? (
           <AutoLayout
             name="RemoveButton"
-            width={20}
-            height={20}
-            cornerRadius={6}
+            width={LAYOUT.task.controlSize}
+            height={LAYOUT.task.controlSize}
+            cornerRadius={LAYOUT.task.controlRadius}
             fill={t.removeBtnBg}
             horizontalAlignItems="center"
             verticalAlignItems="center"
@@ -94,12 +95,12 @@ export function TaskRow({
           /* Normal Mode: checkbox */
           <AutoLayout
             name="Checkbox"
-            width={20}
-            height={20}
-            cornerRadius={6}
+            width={LAYOUT.task.controlSize}
+            height={LAYOUT.task.controlSize}
+            cornerRadius={LAYOUT.task.controlRadius}
             fill={task.checked ? t.accent : t.checkboxBg}
             stroke={task.checked ? t.accent : t.checkboxUnchecked}
-            strokeWidth={1.5}
+            strokeWidth={LAYOUT.task.controlBorder}
             horizontalAlignItems="center"
             verticalAlignItems="center"
             onClick={() => {
@@ -152,9 +153,9 @@ export function TaskRow({
           /* Edit Mode: indent/outdent toggle */
           <AutoLayout
             name="IndentToggle"
-            width={20}
-            height={20}
-            cornerRadius={6}
+            width={LAYOUT.task.controlSize}
+            height={LAYOUT.task.controlSize}
+            cornerRadius={LAYOUT.task.controlRadius}
             fill={t.surface}
             horizontalAlignItems="center"
             verticalAlignItems="center"
@@ -170,7 +171,7 @@ export function TaskRow({
         )}
 
         {/* Task Text + URL chips */}
-        <AutoLayout direction="vertical" width="fill-parent" spacing={6} name="TaskTextAndUrlChips">
+        <AutoLayout direction="vertical" width="fill-parent" spacing={LAYOUT.task.mainGap} name="TaskTextAndUrlChips">
 
           {/* Single Input used in both modes:
               - Edit mode: behaves as before (updates tasks)
@@ -222,7 +223,7 @@ export function TaskRow({
               }
               setTasks(copy);
             }}
-            fontSize={15}
+            fontSize={LAYOUT.task.fontSize}
             fontWeight={!task.isChild ? 'semi-bold' : 'normal'}
             fontFamily="Inter"
             fill={task.checked ? t.taskChecked : task.isChild ? t.taskChild : t.primary}
@@ -249,10 +250,10 @@ export function TaskRow({
               key={url}
               name="UrlChip"
               direction="horizontal"
-              spacing={5}
+              spacing={LAYOUT.task.urlChipGap}
               verticalAlignItems="center"
-              padding={{ vertical: 3, horizontal: 8 }}
-              cornerRadius={6}
+              padding={{ vertical: LAYOUT.task.urlChipPadV, horizontal: LAYOUT.task.urlChipPadH }}
+              cornerRadius={LAYOUT.task.urlChipRadius}
               fill={t.editActiveBg}
               stroke={t.linkBorder}
               strokeWidth={1}
@@ -260,7 +261,7 @@ export function TaskRow({
             >
               <Text
                 name="UrlChipText"
-                fontSize={12}
+                fontSize={LAYOUT.task.urlChipFont}
                 fontFamily="Inter"
                 fill={t.accent}
                 textDecoration="underline"
@@ -278,12 +279,12 @@ export function TaskRow({
         {isEditing && (
           <AutoLayout
             name="MoveCheckbox"
-            width={20}
-            height={20}
-            cornerRadius={6}
+            width={LAYOUT.task.controlSize}
+            height={LAYOUT.task.controlSize}
+            cornerRadius={LAYOUT.task.controlRadius}
             fill={isMoveSelected ? t.moveBg : t.checkboxBg}
             stroke={isMoveSelected ? t.moveBg : t.checkboxUnchecked}
-            strokeWidth={1.5}
+            strokeWidth={LAYOUT.task.controlBorder}
             horizontalAlignItems="center"
             verticalAlignItems="center"
             onClick={() => onToggleMoveSelected(task.id)}
@@ -301,15 +302,15 @@ export function TaskRow({
             name="MergeUpButton"
             positioning="absolute"
             x={{ type: 'center', offset: 0 }}
-            y={{ type: 'top', offset: -13 }}
-            padding={6}
+            y={{ type: 'top', offset: LAYOUT.task.mergeTop }}
+            padding={LAYOUT.task.mergePad}
             cornerRadius={100}
             fill={t.floatBtn}
             effect={{
               type: "drop-shadow",
               color: t.shadow,
-              offset: { x: 0, y: 2 },
-              blur: 4,
+              offset: { x: 0, y: LAYOUT.task.mergeShadowY },
+              blur: LAYOUT.task.mergeShadowBlur,
             }}
             hoverStyle={{ fill: t.floatBtnHover }}
             onClick={() => {

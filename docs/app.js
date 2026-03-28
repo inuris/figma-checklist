@@ -39,6 +39,187 @@
     });
   };
 
+  // shared/layout.ts
+  var LAYOUT = {
+    page: { padY: 24, padX: 16, padBottom: 48 },
+    pageBg: { light: "#f1f5f9", dark: "#0f172a" },
+    card: {
+      maxWidth: 640,
+      outerPad: 6,
+      outerRadius: 8
+    },
+    innerCard: {
+      radius: 6,
+      shadowOffsetY: 6,
+      shadowBlur: 12
+    },
+    header: {
+      gap: 12,
+      padV: 20,
+      padH: 24,
+      titleSubtitleGap: 4,
+      titleSize: 20,
+      titleLetterSpacing: -0.5,
+      subtitleSize: 12,
+      rightGap: 8,
+      iconBtnPad: 8,
+      iconBtnRadius: 999
+    },
+    actionBar: {
+      colGap: 8,
+      padV: 16,
+      padH: 24,
+      rowGap: 12,
+      spacerMin: 4,
+      endGap: 8,
+      endLinksGap: 16,
+      tooltipPadTop: 4,
+      tooltipFont: 12,
+      linkFont: 12
+    },
+    addButton: {
+      gap: 8,
+      padV: 8,
+      padH: 16,
+      radius: 8,
+      fontSize: 14,
+      shadowOffsetY: 4,
+      shadowBlur: 8
+    },
+    capsule: {
+      gap: 10,
+      knob: 20,
+      borderWidth: 1.5,
+      fontSize: 14,
+      /** Knob left, label right */
+      on: { top: 8, right: 16, bottom: 8, left: 8 },
+      /** Label left, knob right */
+      off: { top: 8, right: 8, bottom: 8, left: 16 }
+    },
+    moveButton: { size: 28, radius: 6, gap: 8 },
+    exportButton: { pad: 8, radius: 8 },
+    task: {
+      listPadBottom: 12,
+      rowGap: 16,
+      rowPadV: 16,
+      rowPadH: 24,
+      childPadLeft: 56,
+      mainGap: 6,
+      fontSize: 15,
+      lineHeight: 1.5,
+      textareaMinHeight: 48,
+      mergeTop: -13,
+      mergePad: 6,
+      mergeShadowY: 2,
+      mergeShadowBlur: 4,
+      controlSize: 20,
+      controlRadius: 6,
+      controlBorder: 1.5,
+      urlChipGap: 5,
+      urlChipPadV: 3,
+      urlChipPadH: 8,
+      urlChipRadius: 6,
+      urlChipFont: 12
+    },
+    empty: { minHeight: 200, gap: 12, fontSize: 14 },
+    modals: {
+      addTasks: { width: 500, height: 400 },
+      export: { width: 480, height: 360 }
+    }
+  };
+  var CARD_GRADIENT_CSS = "radial-gradient(ellipse 140% 120% at 0% 100%, rgb(20, 244, 181) 0%, rgb(99, 102, 241) 52%, rgb(236, 72, 153) 100%)";
+  var WIDGET_CARD_GRADIENT_STOPS = [
+    { position: 0, color: { r: 20 / 255, g: 244 / 255, b: 181 / 255, a: 1 } },
+    { position: 0.5, color: { r: 99 / 255, g: 102 / 255, b: 241 / 255, a: 1 } },
+    { position: 1, color: { r: 236 / 255, g: 72 / 255, b: 153 / 255, a: 1 } }
+  ];
+  var px = (n) => `${n}px`;
+  function setLayoutCssVars(root2) {
+    const L = LAYOUT;
+    const s = (name, value) => root2.style.setProperty(name, value);
+    s("--layout-page-pad-y", px(L.page.padY));
+    s("--layout-page-pad-x", px(L.page.padX));
+    s("--layout-page-pad-bottom", px(L.page.padBottom));
+    s("--layout-card-max", px(L.card.maxWidth));
+    s("--layout-card-outer-pad", px(L.card.outerPad));
+    s("--layout-card-outer-radius", px(L.card.outerRadius));
+    s("--layout-card-gradient", CARD_GRADIENT_CSS);
+    s("--layout-inner-radius", px(L.innerCard.radius));
+    s("--layout-inner-shadow-y", px(L.innerCard.shadowOffsetY));
+    s("--layout-inner-shadow-blur", px(L.innerCard.shadowBlur));
+    s("--layout-header-gap", px(L.header.gap));
+    s("--layout-header-pad-v", px(L.header.padV));
+    s("--layout-header-pad-h", px(L.header.padH));
+    s("--layout-header-title-sub-gap", px(L.header.titleSubtitleGap));
+    s("--layout-header-title-size", px(L.header.titleSize));
+    s("--layout-header-title-tracking", String(L.header.titleLetterSpacing));
+    s("--layout-header-subtitle-size", px(L.header.subtitleSize));
+    s("--layout-header-right-gap", px(L.header.rightGap));
+    s("--layout-icon-btn-pad", px(L.header.iconBtnPad));
+    s("--layout-icon-btn-radius", px(L.header.iconBtnRadius));
+    s("--layout-action-col-gap", px(L.actionBar.colGap));
+    s("--layout-action-pad-v", px(L.actionBar.padV));
+    s("--layout-action-pad-h", px(L.actionBar.padH));
+    s("--layout-action-row-gap", px(L.actionBar.rowGap));
+    s("--layout-action-spacer-min", px(L.actionBar.spacerMin));
+    s("--layout-action-end-gap", px(L.actionBar.endGap));
+    s("--layout-action-end-links-gap", px(L.actionBar.endLinksGap));
+    s("--layout-tooltip-pad-top", px(L.actionBar.tooltipPadTop));
+    s("--layout-tooltip-font", px(L.actionBar.tooltipFont));
+    s("--layout-link-font", px(L.actionBar.linkFont));
+    s("--layout-add-btn-gap", px(L.addButton.gap));
+    s("--layout-add-btn-pad-v", px(L.addButton.padV));
+    s("--layout-add-btn-pad-h", px(L.addButton.padH));
+    s("--layout-add-btn-radius", px(L.addButton.radius));
+    s("--layout-add-btn-font", px(L.addButton.fontSize));
+    s("--layout-add-btn-shadow-y", px(L.addButton.shadowOffsetY));
+    s("--layout-add-btn-shadow-blur", px(L.addButton.shadowBlur));
+    s("--layout-capsule-gap", px(L.capsule.gap));
+    s("--layout-capsule-knob", px(L.capsule.knob));
+    s("--layout-capsule-border", String(L.capsule.borderWidth));
+    s("--layout-capsule-font", px(L.capsule.fontSize));
+    const capOn = L.capsule.on;
+    const capOff = L.capsule.off;
+    s(
+      "--layout-capsule-pad-on",
+      `${px(capOn.top)} ${px(capOn.right)} ${px(capOn.bottom)} ${px(capOn.left)}`
+    );
+    s(
+      "--layout-capsule-pad-off",
+      `${px(capOff.top)} ${px(capOff.right)} ${px(capOff.bottom)} ${px(capOff.left)}`
+    );
+    s("--layout-move-btn-size", px(L.moveButton.size));
+    s("--layout-move-btn-radius", px(L.moveButton.radius));
+    s("--layout-move-btn-gap", px(L.moveButton.gap));
+    s("--layout-export-btn-pad", px(L.exportButton.pad));
+    s("--layout-export-btn-radius", px(L.exportButton.radius));
+    s("--layout-mode-tooltip-gap", px(L.actionBar.rowGap));
+    s("--layout-tasks-wrap-pad-bottom", px(L.task.listPadBottom));
+    s("--layout-task-row-gap", px(L.task.rowGap));
+    s("--layout-task-row-pad-v", px(L.task.rowPadV));
+    s("--layout-task-row-pad-h", px(L.task.rowPadH));
+    s("--layout-task-child-pad-left", px(L.task.childPadLeft));
+    s("--layout-task-main-gap", px(L.task.mainGap));
+    s("--layout-task-font-size", px(L.task.fontSize));
+    s("--layout-task-line-height", String(L.task.lineHeight));
+    s("--layout-task-textarea-min-h", px(L.task.textareaMinHeight));
+    s("--layout-merge-top", px(L.task.mergeTop));
+    s("--layout-merge-pad", px(L.task.mergePad));
+    s("--layout-merge-shadow-y", px(L.task.mergeShadowY));
+    s("--layout-merge-shadow-blur", px(L.task.mergeShadowBlur));
+    s("--layout-sq-control", px(L.task.controlSize));
+    s("--layout-sq-radius", px(L.task.controlRadius));
+    s("--layout-sq-border", String(L.task.controlBorder));
+    s("--layout-url-chip-gap", px(L.task.urlChipGap));
+    s("--layout-url-chip-pad-v", px(L.task.urlChipPadV));
+    s("--layout-url-chip-pad-h", px(L.task.urlChipPadH));
+    s("--layout-url-chip-radius", px(L.task.urlChipRadius));
+    s("--layout-url-chip-font", px(L.task.urlChipFont));
+    s("--layout-empty-min-h", px(L.empty.minHeight));
+    s("--layout-empty-gap", px(L.empty.gap));
+    s("--layout-empty-font", px(L.empty.fontSize));
+  }
+
   // shared/parseTasks.ts
   var NUMBERED_REGEX = /^\d+[/.)]\s+/;
   var LETTERED_REGEX = /^[a-zA-Z][.)]\s+/;
@@ -116,6 +297,95 @@
   var DARK_COLOR_SHADOW = "#00000066";
   var DARK_COLOR_MOVE = "#14D7C0";
   var DARK_COLOR_MOVE_BG = "#008273";
+
+  // shared/themeCssVars.ts
+  function applyThemeCssVars(root2, t, isDark) {
+    const set = (name, val) => root2.style.setProperty(name, val);
+    set("--page-bg", isDark ? LAYOUT.pageBg.dark : LAYOUT.pageBg.light);
+    set("--t-bg", t.bg);
+    set("--t-bg-hover", t.bgHover);
+    set("--t-primary", t.primary);
+    set("--t-muted", t.muted);
+    set("--t-border", t.border);
+    set("--t-surface", t.surface);
+    set("--t-task-child", t.taskChild);
+    set("--t-task-checked", t.taskChecked);
+    set("--t-checkbox-bg", t.checkboxBg);
+    set("--t-checkbox-unchecked", t.checkboxUnchecked);
+    set("--t-checkbox-hover", t.checkboxHover);
+    set("--t-edit-active-bg", t.editActiveBg);
+    set("--t-remove-btn-bg", t.removeBtnBg);
+    set("--t-remove-btn-hover", t.removeBtnHover);
+    set("--t-float-btn", t.floatBtn);
+    set("--t-float-btn-hover", t.floatBtnHover);
+    set("--t-link-border", t.linkBorder);
+    set("--t-link-hover", t.linkHover);
+    set("--t-accent", t.accent);
+    set("--t-accent-hover", t.accentHover);
+    set("--t-accent-shadow", t.accentShadow);
+    set("--t-danger", t.danger);
+    set("--t-danger-hover", t.dangerHover);
+    set("--t-success", COLOR_SUCCESS);
+    set("--t-move", t.move);
+    set("--t-move-bg", t.moveBg);
+    set("--t-white", t.white);
+    set("--t-shadow", t.shadow);
+  }
+
+  // shared/uiCopy.ts
+  var UI = {
+    title: "Checklist",
+    addItems: "Add Items",
+    edit: "Edit",
+    delete: "Delete",
+    deleteCompleted: "Delete Completed",
+    clearAll: "Clear All",
+    emptyLine1: "Your checklist is empty",
+    emptyLine2: "Start by adding some tasks",
+    noTasksYet: "No tasks yet",
+    allTasksDone: (n) => `All ${n} tasks completed \u2713`,
+    progress: (done, total) => `${done} / ${total} tasks completed`,
+    modeTooltipEditLeft: "Update text, double Enter to split",
+    modeTooltipEditRight: "Check then use \u2191 / \u2193 to reorder tasks",
+    modeTooltipDeleteLeft: "Click \xD7 to delete a task",
+    /** Figma tooltip row uses empty right column in delete mode */
+    modeTooltipDeleteRight: "",
+    exportWindowTitle: "Export Tasks",
+    addModalTitle: "Start typing or paste your list\u2026",
+    addModalLabel: "Paste tasks below (separate lines)",
+    addModalButton: "Add to Checklist",
+    addModalPlaceholder: `# Example #
+1. Review design specs
+2. Update components
+   - Fix button states
+   - Check contrast ratios`,
+    exportModalLabel: "Your tasks \u2014 select all and copy, or click the button below",
+    exportCopy: "Copy to Clipboard",
+    exportCopied: "Copied!",
+    ariaUndo: "Undo",
+    ariaLightMode: "Light mode",
+    ariaDarkMode: "Dark mode",
+    ariaMoveUp: "Move up",
+    ariaMoveDown: "Move down",
+    ariaExport: "Export",
+    ariaMergeUp: "Merge with task above",
+    ariaRemoveTask: "Remove task",
+    ariaMarkComplete: "Mark complete",
+    ariaMarkIncomplete: "Mark incomplete",
+    ariaIndent: "Indent",
+    ariaOutdent: "Outdent",
+    ariaSelectForMove: "Select for move"
+  };
+  function progressSubtitle(taskCount, completedCount) {
+    if (taskCount === 0) return UI.noTasksYet;
+    if (completedCount === taskCount) return UI.allTasksDone(taskCount);
+    return UI.progress(completedCount, taskCount);
+  }
+  function modeTooltipForState(isEditing, isRemoving) {
+    if (isEditing) return { left: UI.modeTooltipEditLeft, right: UI.modeTooltipEditRight };
+    if (isRemoving) return { left: UI.modeTooltipDeleteLeft, right: UI.modeTooltipDeleteRight };
+    return null;
+  }
 
   // widget-src/constants/icons.ts
   var ICON_PLUS = `<svg width="14" height="14" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 1V11M1 6H11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
@@ -255,39 +525,6 @@
       id: `${t}-${i}-${Math.random().toString(36).slice(2, 9)}`
     }));
   }
-  function applyThemeVars(t, isDark) {
-    const r = document.documentElement;
-    const set = (name, val) => r.style.setProperty(name, val);
-    set("--page-bg", isDark ? "#0f172a" : "#f1f5f9");
-    set("--t-bg", t.bg);
-    set("--t-bg-hover", t.bgHover);
-    set("--t-primary", t.primary);
-    set("--t-muted", t.muted);
-    set("--t-border", t.border);
-    set("--t-surface", t.surface);
-    set("--t-task-child", t.taskChild);
-    set("--t-task-checked", t.taskChecked);
-    set("--t-checkbox-bg", t.checkboxBg);
-    set("--t-checkbox-unchecked", t.checkboxUnchecked);
-    set("--t-checkbox-hover", t.checkboxHover);
-    set("--t-edit-active-bg", t.editActiveBg);
-    set("--t-remove-btn-bg", t.removeBtnBg);
-    set("--t-remove-btn-hover", t.removeBtnHover);
-    set("--t-float-btn", t.floatBtn);
-    set("--t-float-btn-hover", t.floatBtnHover);
-    set("--t-link-border", t.linkBorder);
-    set("--t-link-hover", t.linkHover);
-    set("--t-accent", t.accent);
-    set("--t-accent-hover", t.accentHover);
-    set("--t-accent-shadow", t.accentShadow);
-    set("--t-danger", t.danger);
-    set("--t-danger-hover", t.dangerHover);
-    set("--t-success", COLOR_SUCCESS);
-    set("--t-move", t.move);
-    set("--t-move-bg", t.moveBg);
-    set("--t-white", t.white);
-    set("--t-shadow", t.shadow);
-  }
   function toggleTaskChecked(tasks, index) {
     const copy = tasks.map((x) => __spreadValues({}, x));
     const isNowChecked = !copy[index].checked;
@@ -322,6 +559,7 @@
   }
   var state = loadState();
   var root = document.getElementById("root");
+  setLayoutCssVars(document.documentElement);
   function setTasksWithHistory(newTasks) {
     state.taskHistory = [...state.taskHistory.slice(-(MAX_UNDO - 1)), cloneTasks(state.tasks)];
     state.tasks = newTasks;
@@ -374,14 +612,14 @@
     const head = document.createElement("div");
     head.className = "modal-head";
     head.id = "add-modal-title";
-    head.textContent = "Start typing or paste your list\u2026";
+    head.textContent = UI.addModalTitle;
     const body = document.createElement("div");
     body.className = "modal-body";
     const label = document.createElement("div");
     label.className = "field-label";
-    label.textContent = "Paste tasks below (separate lines)";
+    label.textContent = UI.addModalLabel;
     const ta = document.createElement("textarea");
-    ta.placeholder = "# Example #\n1. Review design specs\n2. Update components\n   - Fix button states\n   - Check contrast ratios";
+    ta.placeholder = UI.addModalPlaceholder;
     ta.addEventListener("paste", (e) => {
       var _a;
       if (!e.clipboardData) return;
@@ -412,7 +650,7 @@
     const btn = document.createElement("button");
     btn.type = "button";
     btn.className = "btn-primary-modal";
-    btn.textContent = "Add to Checklist";
+    btn.textContent = UI.addModalButton;
     const close = () => backdrop.remove();
     btn.addEventListener("click", () => {
       const val = ta.value.trim();
@@ -443,14 +681,14 @@
     body.className = "modal-body";
     const lbl = document.createElement("label");
     lbl.className = "field-label";
-    lbl.textContent = "Your tasks \u2014 select all and copy, or click the button below";
+    lbl.textContent = UI.exportModalLabel;
     const ta = document.createElement("textarea");
     ta.readOnly = true;
     ta.value = text;
     const btn = document.createElement("button");
     btn.type = "button";
     btn.className = "btn-copy";
-    btn.textContent = "Copy to Clipboard";
+    btn.textContent = UI.exportCopy;
     btn.addEventListener("click", () => {
       ta.select();
       void (() => __async(null, null, function* () {
@@ -459,10 +697,10 @@
         } catch (e) {
           document.execCommand("copy");
         }
-        btn.textContent = "Copied!";
+        btn.textContent = UI.exportCopied;
         btn.classList.add("copied");
         setTimeout(() => {
-          btn.textContent = "Copy to Clipboard";
+          btn.textContent = UI.exportCopy;
           btn.classList.remove("copied");
         }, 2e3);
       }))();
@@ -485,21 +723,21 @@
   }
   function fitTaskTextarea(ta) {
     const lh = parseFloat(window.getComputedStyle(ta).lineHeight) || 22.5;
-    const minH = Math.max(48, lh * 2);
+    const minH = Math.max(LAYOUT.task.textareaMinHeight, lh * 2);
     ta.style.height = "auto";
     ta.style.height = `${Math.max(minH, ta.scrollHeight)}px`;
   }
   function render() {
     const t = getTheme(state.isDark);
-    applyThemeVars(t, state.isDark);
+    applyThemeCssVars(document.documentElement, t, state.isDark);
     const taskCount = state.tasks.length;
     const completedCount = state.tasks.filter((x) => x.checked).length;
     const allDone = taskCount > 0 && completedCount === taskCount;
     const canUndo = state.taskHistory.length > 0;
     const hasTasks = taskCount > 0;
     const canMove = state.moveSelectedIds.length > 0;
-    const subtitle = taskCount === 0 ? "No tasks yet" : allDone ? `All ${taskCount} tasks completed \u2713` : `${completedCount} / ${taskCount} tasks completed`;
-    const modeTooltip = state.isEditing ? { left: "Update text, double Enter to split", right: "Check then use \u2191 / \u2193 to reorder tasks" } : state.isRemoving ? { left: "Click \xD7 to delete a task", right: "" } : null;
+    const subtitle = progressSubtitle(taskCount, completedCount);
+    const modeTooltip = modeTooltipForState(state.isEditing, state.isRemoving);
     root.innerHTML = "";
     const page = document.createElement("div");
     page.className = "page-wrap";
@@ -512,7 +750,7 @@
     const titleBlock = document.createElement("div");
     titleBlock.className = "title-block";
     const h1 = document.createElement("h1");
-    h1.textContent = "Checklist";
+    h1.textContent = UI.title;
     const sub = document.createElement("p");
     sub.className = "subtitle" + (allDone ? " all-done" : "");
     sub.textContent = subtitle;
@@ -522,7 +760,7 @@
     const undoBtn = document.createElement("button");
     undoBtn.type = "button";
     undoBtn.className = "icon-btn";
-    undoBtn.setAttribute("aria-label", "Undo");
+    undoBtn.setAttribute("aria-label", UI.ariaUndo);
     undoBtn.disabled = !canUndo;
     undoBtn.append(elFromHtml(ICON_UNDO));
     undoBtn.addEventListener("click", () => {
@@ -531,7 +769,7 @@
     const themeBtn = document.createElement("button");
     themeBtn.type = "button";
     themeBtn.className = "icon-btn";
-    themeBtn.setAttribute("aria-label", state.isDark ? "Light mode" : "Dark mode");
+    themeBtn.setAttribute("aria-label", state.isDark ? UI.ariaLightMode : UI.ariaDarkMode);
     themeBtn.append(elFromHtml(state.isDark ? ICON_SUN : ICON_MOON));
     themeBtn.addEventListener("click", () => {
       state.isDark = !state.isDark;
@@ -549,7 +787,7 @@
     const addBtn = document.createElement("button");
     addBtn.type = "button";
     addBtn.className = "btn-add-items";
-    addBtn.append(elFromHtml(ICON_PLUS), document.createTextNode(" Add Items"));
+    addBtn.append(elFromHtml(ICON_PLUS), document.createTextNode(" " + UI.addItems));
     addBtn.addEventListener("click", () => openAddModal());
     left.append(addBtn);
     if (hasTasks) {
@@ -575,9 +813,9 @@
       const editCap = document.createElement("div");
       editCap.className = "capsule" + (state.isEditing ? " on-move" : " off");
       if (state.isEditing) {
-        editCap.innerHTML = `<div class="capsule-knob move"></div><span class="label">Edit</span>`;
+        editCap.innerHTML = `<div class="capsule-knob move"></div><span class="label">${UI.edit}</span>`;
       } else {
-        editCap.innerHTML = `<span class="label">Edit</span><div class="capsule-knob muted"></div>`;
+        editCap.innerHTML = `<span class="label">${UI.edit}</span><div class="capsule-knob muted"></div>`;
       }
       editWrap.append(editCap);
       const delWrap = document.createElement("div");
@@ -599,9 +837,9 @@
       const delCap = document.createElement("div");
       delCap.className = "capsule" + (state.isRemoving ? " on-danger" : " off");
       if (state.isRemoving) {
-        delCap.innerHTML = `<div class="capsule-knob danger"></div><span class="label">Delete</span>`;
+        delCap.innerHTML = `<div class="capsule-knob danger"></div><span class="label">${UI.delete}</span>`;
       } else {
-        delCap.innerHTML = `<span class="label">Delete</span><div class="capsule-knob muted"></div>`;
+        delCap.innerHTML = `<span class="label">${UI.delete}</span><div class="capsule-knob muted"></div>`;
       }
       delWrap.append(delCap);
       toggles.append(editWrap, delWrap);
@@ -619,7 +857,7 @@
         const delDone = document.createElement("button");
         delDone.type = "button";
         delDone.className = "link-muted";
-        delDone.textContent = "Delete Completed";
+        delDone.textContent = UI.deleteCompleted;
         delDone.addEventListener("click", () => {
           setTasksWithHistory(state.tasks.filter((task) => !task.checked));
         });
@@ -628,7 +866,7 @@
       const clearAll = document.createElement("button");
       clearAll.type = "button";
       clearAll.className = "link-danger";
-      clearAll.textContent = "Clear All";
+      clearAll.textContent = UI.clearAll;
       clearAll.addEventListener("click", () => {
         state.isEditing = false;
         state.isRemoving = false;
@@ -645,14 +883,14 @@
       up.type = "button";
       up.className = "move-btn";
       up.disabled = !canMove;
-      up.setAttribute("aria-label", "Move up");
+      up.setAttribute("aria-label", UI.ariaMoveUp);
       up.append(elFromHtml(ICON_ARROW_UP_WHITE));
       up.addEventListener("click", () => canMove && moveSelectedUp());
       const down = document.createElement("button");
       down.type = "button";
       down.className = "move-btn";
       down.disabled = !canMove;
-      down.setAttribute("aria-label", "Move down");
+      down.setAttribute("aria-label", UI.ariaMoveDown);
       down.append(elFromHtml(ICON_ARROW_DOWN_WHITE));
       down.addEventListener("click", () => canMove && moveSelectedDown());
       mw.append(up, down);
@@ -663,7 +901,7 @@
       const ex = document.createElement("button");
       ex.type = "button";
       ex.className = "export-btn";
-      ex.setAttribute("aria-label", "Export");
+      ex.setAttribute("aria-label", UI.ariaExport);
       ex.append(elFromHtml(ICON_EXPORT));
       ex.addEventListener("click", () => openExportModal());
       ew.append(ex);
@@ -689,10 +927,10 @@
       const empty = document.createElement("div");
       empty.className = "empty-state";
       const p1 = document.createElement("p");
-      p1.textContent = "Your checklist is empty";
+      p1.textContent = UI.emptyLine1;
       const p2 = document.createElement("p");
       p2.className = "accent-line";
-      p2.textContent = "Start by adding some tasks";
+      p2.textContent = UI.emptyLine2;
       empty.append(p1, p2);
       inner.append(empty);
     } else {
@@ -712,7 +950,7 @@
           const mergeBtn = document.createElement("button");
           mergeBtn.type = "button";
           mergeBtn.className = "merge-float";
-          mergeBtn.setAttribute("aria-label", "Merge with task above");
+          mergeBtn.setAttribute("aria-label", UI.ariaMergeUp);
           mergeBtn.append(elFromHtml(ICON_MERGE));
           mergeBtn.addEventListener("click", () => {
             const copy = state.tasks.map((x) => __spreadValues({}, x));
@@ -726,7 +964,7 @@
           const rm = document.createElement("button");
           rm.type = "button";
           rm.className = "sq-20 remove-tile";
-          rm.setAttribute("aria-label", "Remove task");
+          rm.setAttribute("aria-label", UI.ariaRemoveTask);
           rm.append(elFromHtml(ICON_REMOVE));
           rm.addEventListener("click", () => {
             const copy = state.tasks.map((x) => __spreadValues({}, x));
@@ -739,7 +977,7 @@
           cb.type = "button";
           cb.className = "sq-20 checkbox-tile" + (task.checked ? " checked" : "");
           cb.setAttribute("aria-pressed", task.checked ? "true" : "false");
-          cb.setAttribute("aria-label", task.checked ? "Mark incomplete" : "Mark complete");
+          cb.setAttribute("aria-label", task.checked ? UI.ariaMarkIncomplete : UI.ariaMarkComplete);
           if (task.checked) cb.append(elFromHtml(ICON_CHECK));
           cb.addEventListener("click", () => {
             setTasksWithHistory(toggleTaskChecked(state.tasks, index));
@@ -749,7 +987,7 @@
           const ind = document.createElement("button");
           ind.type = "button";
           ind.className = "sq-20 indent-tile";
-          ind.setAttribute("aria-label", task.isChild ? "Outdent" : "Indent");
+          ind.setAttribute("aria-label", task.isChild ? UI.ariaOutdent : UI.ariaIndent);
           ind.append(elFromHtml(task.isChild ? ICON_OUTDENT : ICON_INDENT));
           ind.addEventListener("click", () => {
             const copy = state.tasks.map((x) => __spreadValues({}, x));
@@ -794,7 +1032,6 @@
           };
           ta.addEventListener("blur", commitEdit);
           main.append(ta);
-          queueMicrotask(() => fitTaskTextarea(ta));
         } else {
           const ro = document.createElement("div");
           ro.className = "task-readonly" + (task.isChild ? " child" : " parent") + (task.checked ? " checked" : "");
@@ -819,7 +1056,7 @@
           mv.type = "button";
           mv.className = "sq-20 move-select-tile" + (isSel ? " selected" : "");
           mv.setAttribute("aria-pressed", isSel ? "true" : "false");
-          mv.setAttribute("aria-label", "Select for move");
+          mv.setAttribute("aria-label", UI.ariaSelectForMove);
           if (isSel) {
             mv.append(elFromHtml(state.isDark ? ICON_MOVE_ARROW_DARK : ICON_MOVE_ARROW_LIGHT));
           }

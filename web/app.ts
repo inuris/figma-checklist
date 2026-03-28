@@ -1,6 +1,8 @@
 import type { TaskItem } from '../shared/types';
+import { LAYOUT, setLayoutCssVars } from '../shared/layout';
 import { parseTasks } from '../shared/parseTasks';
-import { COLOR_SUCCESS } from '../widget-src/constants/colors';
+import { applyThemeCssVars } from '../shared/themeCssVars';
+import { UI, modeTooltipForState, progressSubtitle } from '../shared/uiCopy';
 import {
   ICON_ARROW_DOWN_WHITE,
   ICON_ARROW_UP_WHITE,
@@ -21,7 +23,6 @@ import {
 import { exportTasksAsText } from '../widget-src/utils/exportTasks';
 import { extractUrls, formatUrlLabel } from '../widget-src/utils/parseUrls';
 import { getTheme } from '../widget-src/utils/theme';
-import type { Theme } from '../widget-src/utils/theme';
 
 const STORAGE_KEY = 'checklist-web-state-v2';
 const MAX_UNDO = 50;
@@ -108,40 +109,6 @@ function uniqueIds(tasks: TaskItem[]): TaskItem[] {
   }));
 }
 
-function applyThemeVars(t: Theme, isDark: boolean): void {
-  const r = document.documentElement;
-  const set = (name: string, val: string) => r.style.setProperty(name, val);
-  set('--page-bg', isDark ? '#0f172a' : '#f1f5f9');
-  set('--t-bg', t.bg);
-  set('--t-bg-hover', t.bgHover);
-  set('--t-primary', t.primary);
-  set('--t-muted', t.muted);
-  set('--t-border', t.border);
-  set('--t-surface', t.surface);
-  set('--t-task-child', t.taskChild);
-  set('--t-task-checked', t.taskChecked);
-  set('--t-checkbox-bg', t.checkboxBg);
-  set('--t-checkbox-unchecked', t.checkboxUnchecked);
-  set('--t-checkbox-hover', t.checkboxHover);
-  set('--t-edit-active-bg', t.editActiveBg);
-  set('--t-remove-btn-bg', t.removeBtnBg);
-  set('--t-remove-btn-hover', t.removeBtnHover);
-  set('--t-float-btn', t.floatBtn);
-  set('--t-float-btn-hover', t.floatBtnHover);
-  set('--t-link-border', t.linkBorder);
-  set('--t-link-hover', t.linkHover);
-  set('--t-accent', t.accent);
-  set('--t-accent-hover', t.accentHover);
-  set('--t-accent-shadow', t.accentShadow);
-  set('--t-danger', t.danger);
-  set('--t-danger-hover', t.dangerHover);
-  set('--t-success', COLOR_SUCCESS);
-  set('--t-move', t.move);
-  set('--t-move-bg', t.moveBg);
-  set('--t-white', t.white);
-  set('--t-shadow', t.shadow);
-}
-
 function toggleTaskChecked(tasks: TaskItem[], index: number): TaskItem[] {
   const copy = tasks.map((x) => ({ ...x }));
   const isNowChecked = !copy[index].checked;
@@ -178,6 +145,7 @@ function toggleTaskChecked(tasks: TaskItem[], index: number): TaskItem[] {
 
 const state = loadState();
 const root = document.getElementById('root')!;
+setLayoutCssVars(document.documentElement);
 
 function setTasksWithHistory(newTasks: TaskItem[]): void {
   state.taskHistory = [...state.taskHistory.slice(-(MAX_UNDO - 1)), cloneTasks(state.tasks)];
@@ -244,18 +212,17 @@ function openAddModal(): void {
   const head = document.createElement('div');
   head.className = 'modal-head';
   head.id = 'add-modal-title';
-  head.textContent = 'Start typing or paste your list…';
+  head.textContent = UI.addModalTitle;
 
   const body = document.createElement('div');
   body.className = 'modal-body';
 
   const label = document.createElement('div');
   label.className = 'field-label';
-  label.textContent = 'Paste tasks below (separate lines)';
+  label.textContent = UI.addModalLabel;
 
   const ta = document.createElement('textarea');
-  ta.placeholder =
-    '# Example #\n1. Review design specs\n2. Update components\n   - Fix button states\n   - Check contrast ratios';
+  ta.placeholder = UI.addModalPlaceholder;
 
   ta.addEventListener('paste', (e) => {
     if (!e.clipboardData) return;
@@ -286,7 +253,7 @@ function openAddModal(): void {
   const btn = document.createElement('button');
   btn.type = 'button';
   btn.className = 'btn-primary-modal';
-  btn.textContent = 'Add to Checklist';
+  btn.textContent = UI.addModalButton;
 
   const close = () => backdrop.remove();
 
@@ -325,7 +292,7 @@ function openExportModal(): void {
 
   const lbl = document.createElement('label');
   lbl.className = 'field-label';
-  lbl.textContent = 'Your tasks — select all and copy, or click the button below';
+  lbl.textContent = UI.exportModalLabel;
 
   const ta = document.createElement('textarea');
   ta.readOnly = true;
@@ -334,7 +301,7 @@ function openExportModal(): void {
   const btn = document.createElement('button');
   btn.type = 'button';
   btn.className = 'btn-copy';
-  btn.textContent = 'Copy to Clipboard';
+  btn.textContent = UI.exportCopy;
 
   btn.addEventListener('click', () => {
     ta.select();
@@ -344,10 +311,10 @@ function openExportModal(): void {
       } catch {
         document.execCommand('copy');
       }
-      btn.textContent = 'Copied!';
+      btn.textContent = UI.exportCopied;
       btn.classList.add('copied');
       setTimeout(() => {
-        btn.textContent = 'Copy to Clipboard';
+        btn.textContent = UI.exportCopy;
         btn.classList.remove('copied');
       }, 2000);
     })();
@@ -374,14 +341,14 @@ function elFromHtml(html: string): HTMLElement {
 
 function fitTaskTextarea(ta: HTMLTextAreaElement): void {
   const lh = parseFloat(window.getComputedStyle(ta).lineHeight) || 22.5;
-  const minH = Math.max(48, lh * 2);
+  const minH = Math.max(LAYOUT.task.textareaMinHeight, lh * 2);
   ta.style.height = 'auto';
   ta.style.height = `${Math.max(minH, ta.scrollHeight)}px`;
 }
 
 function render(): void {
   const t = getTheme(state.isDark);
-  applyThemeVars(t, state.isDark);
+  applyThemeCssVars(document.documentElement, t, state.isDark);
 
   const taskCount = state.tasks.length;
   const completedCount = state.tasks.filter((x) => x.checked).length;
@@ -390,19 +357,8 @@ function render(): void {
   const hasTasks = taskCount > 0;
   const canMove = state.moveSelectedIds.length > 0;
 
-  const subtitle =
-    taskCount === 0
-      ? 'No tasks yet'
-      : allDone
-        ? `All ${taskCount} tasks completed ✓`
-        : `${completedCount} / ${taskCount} tasks completed`;
-
-  const modeTooltip =
-    state.isEditing
-      ? { left: 'Update text, double Enter to split', right: 'Check then use ↑ / ↓ to reorder tasks' }
-      : state.isRemoving
-        ? { left: 'Click × to delete a task', right: '' }
-        : null;
+  const subtitle = progressSubtitle(taskCount, completedCount);
+  const modeTooltip = modeTooltipForState(state.isEditing, state.isRemoving);
 
   root.innerHTML = '';
 
@@ -421,7 +377,7 @@ function render(): void {
   const titleBlock = document.createElement('div');
   titleBlock.className = 'title-block';
   const h1 = document.createElement('h1');
-  h1.textContent = 'Checklist';
+  h1.textContent = UI.title;
   const sub = document.createElement('p');
   sub.className = 'subtitle' + (allDone ? ' all-done' : '');
   sub.textContent = subtitle;
@@ -433,7 +389,7 @@ function render(): void {
   const undoBtn = document.createElement('button');
   undoBtn.type = 'button';
   undoBtn.className = 'icon-btn';
-  undoBtn.setAttribute('aria-label', 'Undo');
+  undoBtn.setAttribute('aria-label', UI.ariaUndo);
   undoBtn.disabled = !canUndo;
   undoBtn.append(elFromHtml(ICON_UNDO));
   undoBtn.addEventListener('click', () => {
@@ -443,7 +399,7 @@ function render(): void {
   const themeBtn = document.createElement('button');
   themeBtn.type = 'button';
   themeBtn.className = 'icon-btn';
-  themeBtn.setAttribute('aria-label', state.isDark ? 'Light mode' : 'Dark mode');
+  themeBtn.setAttribute('aria-label', state.isDark ? UI.ariaLightMode : UI.ariaDarkMode);
   themeBtn.append(elFromHtml(state.isDark ? ICON_SUN : ICON_MOON));
   themeBtn.addEventListener('click', () => {
     state.isDark = !state.isDark;
@@ -467,7 +423,7 @@ function render(): void {
   const addBtn = document.createElement('button');
   addBtn.type = 'button';
   addBtn.className = 'btn-add-items';
-  addBtn.append(elFromHtml(ICON_PLUS), document.createTextNode(' Add Items'));
+  addBtn.append(elFromHtml(ICON_PLUS), document.createTextNode(' ' + UI.addItems));
   addBtn.addEventListener('click', () => openAddModal());
 
   left.append(addBtn);
@@ -497,9 +453,9 @@ function render(): void {
     const editCap = document.createElement('div');
     editCap.className = 'capsule' + (state.isEditing ? ' on-move' : ' off');
     if (state.isEditing) {
-      editCap.innerHTML = `<div class="capsule-knob move"></div><span class="label">Edit</span>`;
+      editCap.innerHTML = `<div class="capsule-knob move"></div><span class="label">${UI.edit}</span>`;
     } else {
-      editCap.innerHTML = `<span class="label">Edit</span><div class="capsule-knob muted"></div>`;
+      editCap.innerHTML = `<span class="label">${UI.edit}</span><div class="capsule-knob muted"></div>`;
     }
     editWrap.append(editCap);
 
@@ -523,9 +479,9 @@ function render(): void {
     const delCap = document.createElement('div');
     delCap.className = 'capsule' + (state.isRemoving ? ' on-danger' : ' off');
     if (state.isRemoving) {
-      delCap.innerHTML = `<div class="capsule-knob danger"></div><span class="label">Delete</span>`;
+      delCap.innerHTML = `<div class="capsule-knob danger"></div><span class="label">${UI.delete}</span>`;
     } else {
-      delCap.innerHTML = `<span class="label">Delete</span><div class="capsule-knob muted"></div>`;
+      delCap.innerHTML = `<span class="label">${UI.delete}</span><div class="capsule-knob muted"></div>`;
     }
     delWrap.append(delCap);
 
@@ -547,7 +503,7 @@ function render(): void {
       const delDone = document.createElement('button');
       delDone.type = 'button';
       delDone.className = 'link-muted';
-      delDone.textContent = 'Delete Completed';
+      delDone.textContent = UI.deleteCompleted;
       delDone.addEventListener('click', () => {
         setTasksWithHistory(state.tasks.filter((task) => !task.checked));
       });
@@ -556,7 +512,7 @@ function render(): void {
     const clearAll = document.createElement('button');
     clearAll.type = 'button';
     clearAll.className = 'link-danger';
-    clearAll.textContent = 'Clear All';
+    clearAll.textContent = UI.clearAll;
     clearAll.addEventListener('click', () => {
       state.isEditing = false;
       state.isRemoving = false;
@@ -573,7 +529,7 @@ function render(): void {
     up.type = 'button';
     up.className = 'move-btn';
     up.disabled = !canMove;
-    up.setAttribute('aria-label', 'Move up');
+    up.setAttribute('aria-label', UI.ariaMoveUp);
     up.append(elFromHtml(ICON_ARROW_UP_WHITE));
     up.addEventListener('click', () => canMove && moveSelectedUp());
 
@@ -581,7 +537,7 @@ function render(): void {
     down.type = 'button';
     down.className = 'move-btn';
     down.disabled = !canMove;
-    down.setAttribute('aria-label', 'Move down');
+    down.setAttribute('aria-label', UI.ariaMoveDown);
     down.append(elFromHtml(ICON_ARROW_DOWN_WHITE));
     down.addEventListener('click', () => canMove && moveSelectedDown());
 
@@ -593,7 +549,7 @@ function render(): void {
     const ex = document.createElement('button');
     ex.type = 'button';
     ex.className = 'export-btn';
-    ex.setAttribute('aria-label', 'Export');
+    ex.setAttribute('aria-label', UI.ariaExport);
     ex.append(elFromHtml(ICON_EXPORT));
     ex.addEventListener('click', () => openExportModal());
     ew.append(ex);
@@ -624,10 +580,10 @@ function render(): void {
     const empty = document.createElement('div');
     empty.className = 'empty-state';
     const p1 = document.createElement('p');
-    p1.textContent = 'Your checklist is empty';
+    p1.textContent = UI.emptyLine1;
     const p2 = document.createElement('p');
     p2.className = 'accent-line';
-    p2.textContent = 'Start by adding some tasks';
+    p2.textContent = UI.emptyLine2;
     empty.append(p1, p2);
     inner.append(empty);
   } else {
@@ -651,7 +607,7 @@ function render(): void {
         const mergeBtn = document.createElement('button');
         mergeBtn.type = 'button';
         mergeBtn.className = 'merge-float';
-        mergeBtn.setAttribute('aria-label', 'Merge with task above');
+        mergeBtn.setAttribute('aria-label', UI.ariaMergeUp);
         mergeBtn.append(elFromHtml(ICON_MERGE));
         mergeBtn.addEventListener('click', () => {
           const copy = state.tasks.map((x) => ({ ...x }));
@@ -666,7 +622,7 @@ function render(): void {
         const rm = document.createElement('button');
         rm.type = 'button';
         rm.className = 'sq-20 remove-tile';
-        rm.setAttribute('aria-label', 'Remove task');
+        rm.setAttribute('aria-label', UI.ariaRemoveTask);
         rm.append(elFromHtml(ICON_REMOVE));
         rm.addEventListener('click', () => {
           const copy = state.tasks.map((x) => ({ ...x }));
@@ -679,7 +635,7 @@ function render(): void {
         cb.type = 'button';
         cb.className = 'sq-20 checkbox-tile' + (task.checked ? ' checked' : '');
         cb.setAttribute('aria-pressed', task.checked ? 'true' : 'false');
-        cb.setAttribute('aria-label', task.checked ? 'Mark incomplete' : 'Mark complete');
+        cb.setAttribute('aria-label', task.checked ? UI.ariaMarkIncomplete : UI.ariaMarkComplete);
         if (task.checked) cb.append(elFromHtml(ICON_CHECK));
         cb.addEventListener('click', () => {
           setTasksWithHistory(toggleTaskChecked(state.tasks, index));
@@ -689,7 +645,7 @@ function render(): void {
         const ind = document.createElement('button');
         ind.type = 'button';
         ind.className = 'sq-20 indent-tile';
-        ind.setAttribute('aria-label', task.isChild ? 'Outdent' : 'Indent');
+        ind.setAttribute('aria-label', task.isChild ? UI.ariaOutdent : UI.ariaIndent);
         ind.append(elFromHtml(task.isChild ? ICON_OUTDENT : ICON_INDENT));
         ind.addEventListener('click', () => {
           const copy = state.tasks.map((x) => ({ ...x }));
@@ -773,7 +729,7 @@ function render(): void {
         mv.type = 'button';
         mv.className = 'sq-20 move-select-tile' + (isSel ? ' selected' : '');
         mv.setAttribute('aria-pressed', isSel ? 'true' : 'false');
-        mv.setAttribute('aria-label', 'Select for move');
+        mv.setAttribute('aria-label', UI.ariaSelectForMove);
         if (isSel) {
           mv.append(elFromHtml(state.isDark ? ICON_MOVE_ARROW_DARK : ICON_MOVE_ARROW_LIGHT));
         }
