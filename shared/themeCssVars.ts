@@ -26,6 +26,10 @@ export function applyThemeCssVars(root: CssVarRoot, t: Theme, isDark: boolean): 
   set('--t-float-btn-hover', t.floatBtnHover);
   set('--t-link-border', t.linkBorder);
   set('--t-link-hover', t.linkHover);
+  set('--t-url-chip-checked-text', t.urlChipCheckedText);
+  set('--t-url-chip-checked-bg', t.urlChipCheckedBg);
+  set('--t-url-chip-checked-border', t.urlChipCheckedBorder);
+  set('--t-url-chip-checked-hover', t.urlChipCheckedHover);
   set('--t-accent', t.accent);
   set('--t-accent-hover', t.accentHover);
   set('--t-accent-shadow', t.accentShadow);

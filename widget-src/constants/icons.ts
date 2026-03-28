@@ -16,6 +16,10 @@ export const ICON_MERGE = `<svg width="12" height="12" viewBox="0 0 10 10" fill=
 
 export const ICON_LINK = `<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 2H2a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V7" stroke="#3B82F6" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 1h3v3" stroke="#3B82F6" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 1L6 6" stroke="#3B82F6" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
+export const ICON_LINK_CHECKED_LIGHT = `<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 2H2a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V7" stroke="#6B7280" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 1h3v3" stroke="#6B7280" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 1L6 6" stroke="#6B7280" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+export const ICON_LINK_CHECKED_DARK = `<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 2H2a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V7" stroke="#64748B" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 1h3v3" stroke="#64748B" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 1L6 6" stroke="#64748B" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
 // Shown in light mode (click to switch to dark)
 export const ICON_MOON = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.5 10.5A6 6 0 0 1 5.5 2.5a6 6 0 1 0 8 8z" stroke="#64748B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 

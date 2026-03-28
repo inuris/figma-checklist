@@ -25,6 +25,11 @@ export const COLOR_TASK_CHECKED = "#9CA3AF";      // Gray 400  — checked task 
 export const COLOR_TASK_CHILD = "#4B5563";        // Gray 600  — child task text
 export const COLOR_LINK_BORDER = "#BFDBFE";       // Blue 200  — link chip border
 export const COLOR_LINK_HOVER = "#DBEAFE";        // Blue 100  — link chip hover
+/** Checked task URL chip — text slightly darker than COLOR_TASK_CHECKED for a muted link */
+export const COLOR_URL_CHIP_CHECKED_TEXT = "#6B7280";   // Gray 500
+export const COLOR_URL_CHIP_CHECKED_BG = "#F3F4F6";   // Gray 100
+export const COLOR_URL_CHIP_CHECKED_BORDER = "#E5E7EB"; // Gray 200
+export const COLOR_URL_CHIP_CHECKED_HOVER = "#E5E7EB";
 
 // ─── Dark theme ───────────────────────────────────────────────────────────────
 export const DARK_COLOR_BG = "#1E293B";                 // Slate 800
@@ -43,6 +48,10 @@ export const DARK_COLOR_REMOVE_BTN_BG = "#7F1D1D";      // Red 900
 export const DARK_COLOR_REMOVE_BTN_HOVER = "#991B1B";   // Red 800
 export const DARK_COLOR_LINK_BORDER = "#1D4ED8";        // Blue 700
 export const DARK_COLOR_LINK_HOVER = "#1E3A5F";         // Deep blue
+export const DARK_COLOR_URL_CHIP_CHECKED_TEXT = "#64748B";   // Slate 500 — muted vs DARK_COLOR_TASK_CHECKED
+export const DARK_COLOR_URL_CHIP_CHECKED_BG = "#334155";    // Slate 700
+export const DARK_COLOR_URL_CHIP_CHECKED_BORDER = "#475569"; // Slate 600
+export const DARK_COLOR_URL_CHIP_CHECKED_HOVER = "#475569";
 export const DARK_COLOR_FLOAT_BTN = "#334155";          // Slate 700 — merge/float button bg
 export const DARK_COLOR_SHADOW = "#00000066";           // Black 40%
 export const DARK_COLOR_MOVE = "#14D7C0";              // Emerald 300 — pastel green on dark

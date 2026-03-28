@@ -10,6 +10,8 @@ import {
   ICON_EXPORT,
   ICON_INDENT,
   ICON_LINK,
+  ICON_LINK_CHECKED_DARK,
+  ICON_LINK_CHECKED_LIGHT,
   ICON_MERGE,
   ICON_MOON,
   ICON_MOVE_ARROW_DARK,
@@ -712,13 +714,18 @@ function render(): void {
 
         for (const url of extractUrls(task.text)) {
           const chip = document.createElement('a');
-          chip.className = 'url-chip';
+          chip.className = 'url-chip' + (task.checked ? ' checked' : '');
           chip.href = url;
           chip.target = '_blank';
           chip.rel = 'noopener noreferrer';
           const span = document.createElement('span');
           span.textContent = formatUrlLabel(url);
-          chip.append(span, elFromHtml(ICON_LINK));
+          const linkIcon = task.checked
+            ? state.isDark
+              ? ICON_LINK_CHECKED_DARK
+              : ICON_LINK_CHECKED_LIGHT
+            : ICON_LINK;
+          chip.append(span, elFromHtml(linkIcon));
           main.append(chip);
         }
       }

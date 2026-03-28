@@ -277,6 +277,10 @@
   var COLOR_TASK_CHILD = "#4B5563";
   var COLOR_LINK_BORDER = "#BFDBFE";
   var COLOR_LINK_HOVER = "#DBEAFE";
+  var COLOR_URL_CHIP_CHECKED_TEXT = "#6B7280";
+  var COLOR_URL_CHIP_CHECKED_BG = "#F3F4F6";
+  var COLOR_URL_CHIP_CHECKED_BORDER = "#E5E7EB";
+  var COLOR_URL_CHIP_CHECKED_HOVER = "#E5E7EB";
   var DARK_COLOR_BG = "#1E293B";
   var DARK_COLOR_HOVER_BG = "#0F172A";
   var DARK_COLOR_PRIMARY = "#F1F5F9";
@@ -293,6 +297,10 @@
   var DARK_COLOR_REMOVE_BTN_HOVER = "#991B1B";
   var DARK_COLOR_LINK_BORDER = "#1D4ED8";
   var DARK_COLOR_LINK_HOVER = "#1E3A5F";
+  var DARK_COLOR_URL_CHIP_CHECKED_TEXT = "#64748B";
+  var DARK_COLOR_URL_CHIP_CHECKED_BG = "#334155";
+  var DARK_COLOR_URL_CHIP_CHECKED_BORDER = "#475569";
+  var DARK_COLOR_URL_CHIP_CHECKED_HOVER = "#475569";
   var DARK_COLOR_FLOAT_BTN = "#334155";
   var DARK_COLOR_SHADOW = "#00000066";
   var DARK_COLOR_MOVE = "#14D7C0";
@@ -320,6 +328,10 @@
     set("--t-float-btn-hover", t.floatBtnHover);
     set("--t-link-border", t.linkBorder);
     set("--t-link-hover", t.linkHover);
+    set("--t-url-chip-checked-text", t.urlChipCheckedText);
+    set("--t-url-chip-checked-bg", t.urlChipCheckedBg);
+    set("--t-url-chip-checked-border", t.urlChipCheckedBorder);
+    set("--t-url-chip-checked-hover", t.urlChipCheckedHover);
     set("--t-accent", t.accent);
     set("--t-accent-hover", t.accentHover);
     set("--t-accent-shadow", t.accentShadow);
@@ -397,6 +409,8 @@
   var ICON_OUTDENT = `<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 6H10" stroke="#64748B" stroke-width="1.5" stroke-linecap="round"/></svg>`;
   var ICON_MERGE = `<svg width="12" height="12" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 1.5 5 3.5 7 1.5M3 8.5 5 6.5 7 8.5" stroke="#64748B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
   var ICON_LINK = `<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 2H2a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V7" stroke="#3B82F6" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 1h3v3" stroke="#3B82F6" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 1L6 6" stroke="#3B82F6" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  var ICON_LINK_CHECKED_LIGHT = `<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 2H2a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V7" stroke="#6B7280" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 1h3v3" stroke="#6B7280" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 1L6 6" stroke="#6B7280" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  var ICON_LINK_CHECKED_DARK = `<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 2H2a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V7" stroke="#64748B" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 1h3v3" stroke="#64748B" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 1L6 6" stroke="#64748B" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
   var ICON_MOON = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.5 10.5A6 6 0 0 1 5.5 2.5a6 6 0 1 0 8 8z" stroke="#64748B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
   var ICON_SUN = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="3" stroke="#64748B" stroke-width="1.5"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.22 3.22l1.42 1.42M11.36 11.36l1.42 1.42M3.22 12.78l1.42-1.42M11.36 4.64l1.42-1.42" stroke="#64748B" stroke-width="1.5" stroke-linecap="round"/></svg>`;
   var ICON_ARROW_UP_WHITE = `<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 3v6M3 6l3-3 3 3" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
@@ -446,6 +460,10 @@
       floatBtnHover: isDark ? DARK_COLOR_SURFACE : COLOR_HOVER_BG,
       linkBorder: isDark ? DARK_COLOR_LINK_BORDER : COLOR_LINK_BORDER,
       linkHover: isDark ? DARK_COLOR_LINK_HOVER : COLOR_LINK_HOVER,
+      urlChipCheckedText: isDark ? DARK_COLOR_URL_CHIP_CHECKED_TEXT : COLOR_URL_CHIP_CHECKED_TEXT,
+      urlChipCheckedBg: isDark ? DARK_COLOR_URL_CHIP_CHECKED_BG : COLOR_URL_CHIP_CHECKED_BG,
+      urlChipCheckedBorder: isDark ? DARK_COLOR_URL_CHIP_CHECKED_BORDER : COLOR_URL_CHIP_CHECKED_BORDER,
+      urlChipCheckedHover: isDark ? DARK_COLOR_URL_CHIP_CHECKED_HOVER : COLOR_URL_CHIP_CHECKED_HOVER,
       // Same in both themes
       accent: COLOR_ACCENT,
       accentHover: COLOR_ACCENT_HOVER,
@@ -1041,13 +1059,14 @@
           main.append(ro);
           for (const url of extractUrls(task.text)) {
             const chip = document.createElement("a");
-            chip.className = "url-chip";
+            chip.className = "url-chip" + (task.checked ? " checked" : "");
             chip.href = url;
             chip.target = "_blank";
             chip.rel = "noopener noreferrer";
             const span = document.createElement("span");
             span.textContent = formatUrlLabel(url);
-            chip.append(span, elFromHtml(ICON_LINK));
+            const linkIcon = task.checked ? state.isDark ? ICON_LINK_CHECKED_DARK : ICON_LINK_CHECKED_LIGHT : ICON_LINK;
+            chip.append(span, elFromHtml(linkIcon));
             main.append(chip);
           }
         }

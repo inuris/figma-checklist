@@ -10,6 +10,8 @@ import {
   ICON_MOVE_ARROW_DARK,
   ICON_INDENT,
   ICON_LINK,
+  ICON_LINK_CHECKED_DARK,
+  ICON_LINK_CHECKED_LIGHT,
   ICON_MERGE,
   ICON_OUTDENT,
   ICON_REMOVE,
@@ -254,22 +256,31 @@ export function TaskRow({
               verticalAlignItems="center"
               padding={{ vertical: LAYOUT.task.urlChipPadV, horizontal: LAYOUT.task.urlChipPadH }}
               cornerRadius={LAYOUT.task.urlChipRadius}
-              fill={t.editActiveBg}
-              stroke={t.linkBorder}
+              fill={task.checked ? t.urlChipCheckedBg : t.editActiveBg}
+              stroke={task.checked ? t.urlChipCheckedBorder : t.linkBorder}
               strokeWidth={1}
-              hoverStyle={{ fill: t.linkHover }}
+              hoverStyle={{ fill: task.checked ? t.urlChipCheckedHover : t.linkHover }}
             >
               <Text
                 name="UrlChipText"
                 fontSize={LAYOUT.task.urlChipFont}
                 fontFamily="Inter"
-                fill={t.accent}
+                fill={task.checked ? t.urlChipCheckedText : t.accent}
                 textDecoration="underline"
                 href={url}
               >
                 {formatUrlLabel(url)}
               </Text>
-              <SVG name="LinkIcon" src={ICON_LINK} />
+              <SVG
+                name="LinkIcon"
+                src={
+                  task.checked
+                    ? isDark
+                      ? ICON_LINK_CHECKED_DARK
+                      : ICON_LINK_CHECKED_LIGHT
+                    : ICON_LINK
+                }
+              />
             </AutoLayout>
           ))}
 

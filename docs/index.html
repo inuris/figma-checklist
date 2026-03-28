@@ -426,6 +426,17 @@
     }
     .url-chip:hover { background: var(--t-link-hover); }
     .url-chip span { text-decoration: underline; }
+    .url-chip.checked {
+      color: var(--t-url-chip-checked-text);
+      background: var(--t-url-chip-checked-bg);
+      border-color: var(--t-url-chip-checked-border);
+    }
+    .url-chip.checked span {
+      color: var(--t-url-chip-checked-text);
+    }
+    .url-chip.checked:hover {
+      background: var(--t-url-chip-checked-hover);
+    }
 
     .empty-state {
       display: flex;
