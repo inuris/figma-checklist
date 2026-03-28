@@ -176,7 +176,7 @@
     s("--layout-add-btn-shadow-blur", px(L.addButton.shadowBlur));
     s("--layout-capsule-gap", px(L.capsule.gap));
     s("--layout-capsule-knob", px(L.capsule.knob));
-    s("--layout-capsule-border", String(L.capsule.borderWidth));
+    s("--layout-capsule-border", px(L.capsule.borderWidth));
     s("--layout-capsule-font", px(L.capsule.fontSize));
     const capOn = L.capsule.on;
     const capOff = L.capsule.off;
@@ -209,7 +209,7 @@
     s("--layout-merge-shadow-blur", px(L.task.mergeShadowBlur));
     s("--layout-sq-control", px(L.task.controlSize));
     s("--layout-sq-radius", px(L.task.controlRadius));
-    s("--layout-sq-border", String(L.task.controlBorder));
+    s("--layout-sq-border", px(L.task.controlBorder));
     s("--layout-url-chip-gap", px(L.task.urlChipGap));
     s("--layout-url-chip-pad-v", px(L.task.urlChipPadV));
     s("--layout-url-chip-pad-h", px(L.task.urlChipPadH));
