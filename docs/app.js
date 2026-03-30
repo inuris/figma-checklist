@@ -428,10 +428,12 @@
 
   // widget-src/utils/parseUrls.ts
   var URL_REGEX = /https?:\/\/[^\s"'<>)\]]+/gi;
+  var TRAILING_PUNCT_REGEX = /[.,;:!?]+$/;
   function extractUrls(text) {
     const matches = text.match(URL_REGEX);
     if (!matches) return [];
-    return [...new Set(matches)];
+    const normalizedUrls = matches.map((url) => url.replace(TRAILING_PUNCT_REGEX, ""));
+    return [...new Set(normalizedUrls)];
   }
   function formatUrlLabel(url, maxLength = 50) {
     const stripped = url.replace(/^https?:\/\//, "");
